@@ -63,6 +63,7 @@ const applicationSlice = createSlice({
       console.log("Load", saveData);
       state.saveData = saveData;
       state.saveName = saveName;
+      state.playerSelected = saveData.players.findIndex(p => p.stats.name === saveData.game_name);
     },
     setPlayerSelected(state: ApplicationState, action: PayloadAction<number>) {
       state.playerSelected = action.payload;

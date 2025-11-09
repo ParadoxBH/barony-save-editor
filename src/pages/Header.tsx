@@ -88,8 +88,16 @@ export function Header() {
               size="small"
             />
           </Stack>
-          <Button component="label" color={"success"} variant="contained">
-            <Typography>Abrir Arquivo</Typography>
+          <Button
+            component="label"
+            color={"success"}
+            variant="contained"
+            sx={{ py: 0, px: 1 }}
+          >
+            <Typography fontSize={24} pr={1}>
+              📥
+            </Typography>
+            <Typography>Carregar Save</Typography>
             <input
               type="file"
               style={{ display: "none" }}
@@ -102,8 +110,12 @@ export function Header() {
             color={"inherit"}
             variant="contained"
             disabled={!saveData}
+            sx={{ py: 0, px: 1 }}
           >
-            <Typography>Baixar Arquivo</Typography>
+            <Typography fontSize={24} pr={1}>
+              📤
+            </Typography>
+            <Typography>Baixar Save</Typography>
           </Button>
         </Stack>
       </Stack>

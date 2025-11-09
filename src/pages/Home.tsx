@@ -2,8 +2,11 @@ import React from "react";
 import { Box, Divider, Stack } from "@mui/material";
 import { Editor } from "./Editor";
 import { Header } from "./Header";
+import { useAppSelector } from "../StoreContext";
+import { EmptySaveData } from "./EmptySaveData";
 
 export function Home() {
+  const {saveData} = useAppSelector(s => s.common);
   return (
     <Stack
       flex={1}
@@ -28,7 +31,8 @@ export function Home() {
           p: 2,
         }}
       >
-        <Editor />
+        {!saveData && <EmptySaveData/>}
+        {!!saveData && <Editor />}
       </Box>
     </Stack>
   );

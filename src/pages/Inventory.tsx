@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Grid, Paper, Stack, Tooltip, Typography } from "@mui/material";
-import type { Item } from "../components/SaveDefinition";
+import type { Item, Stats } from "../components/SaveDefinition";
 
 import { ItemSlot } from "../components/ItemSlot";
 import {
@@ -9,6 +9,8 @@ import {
   useAppDispatch,
 } from "../StoreContext";
 import { genItemNull, ItemEditor } from "./ItemEditor";
+
+export const ITEMID_BACKPACK = 220;
 
 interface InventoryGridProps {}
 
@@ -26,13 +28,32 @@ export interface slotEditing {
   inventoryId?: number;
 }
 
+export function includeEquipamentBag(stats?: Stats | undefined) {
+  return !!stats?.player_equipment.find((slot) => {
+    const item = slot.second;
+    
+    // Se for um objeto Item, verifica o status diretamente
+    if (typeof item === "object" && item !== null) {
+      return item.status === ITEMID_BACKPACK;
+    }
+    
+    // Se for um número, busca no inventory
+    if (typeof item === "number" && item >= 0 && item < stats.inventory.length && stats.inventory[item]) {
+      return stats.inventory[item].type === ITEMID_BACKPACK;
+    }
+    
+    return false;
+  });
+}
+
 // Componente principal do inventário
 export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const [editSlot, setEditSlot] = useState<slotEditing | undefined>(undefined);
-  const inventory = getCharacter()?.stats.inventory;
+  const stats = getCharacter()?.stats;
+  const inventory = stats?.inventory;
   const dispatch = useAppDispatch();
 
-  const ROWS = 8;
+  const ROWS = includeEquipamentBag(stats) ? 8 : 6;
   const COLS = 5;
 
   function itensInBag(item: Item) {
@@ -96,15 +117,12 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   return (
     <Paper elevation={3}>
       <Box p={3}>
-        <Typography variant="h6" gutterBottom>
-          Inventário
-        </Typography>
         <Stack spacing={1} alignItems={"center"}>
           {grid.map((row, rowIndex) => (
             <>
-              {rowIndex === 6 && (
+              {(rowIndex === 6 || rowIndex === 0) && (
                 <Typography variant="h6" gutterBottom>
-                  Mochila
+                  {rowIndex === 6 ? "Mochila" : "Inventário"}
                 </Typography>
               )}
               <Stack spacing={1} direction={"row"}>

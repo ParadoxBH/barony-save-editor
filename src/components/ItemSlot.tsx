@@ -1,8 +1,17 @@
-import { Box, Paper, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  type SxProps,
+} from "@mui/material";
 import type { Item } from "./SaveDefinition";
 import { useEffect, useState } from "react";
 import { Chip } from "./Chip";
 import { useAppSelector } from "../StoreContext";
+import { theme } from "../theme";
 
 interface ItemSlotProps {
   item: Item | null;
@@ -40,6 +49,7 @@ export function ItemSlot({
 
   // Troca automática a cada 3 segundos
   useEffect(() => {
+    setIndex(item?.appearance || 0);
     if (
       !(
         currentItem &&
@@ -58,10 +68,7 @@ export function ItemSlot({
   }, [item, currentItem]);
 
   return (
-    <Stack
-      direction={"row"}
-      spacing={1}
-    >
+    <Stack direction={"row"} spacing={1}>
       <Paper
         onClick={onClick}
         sx={{
@@ -84,41 +91,91 @@ export function ItemSlot({
         }}
       >
         {item && (
-          <Tooltip placement="right" disableInteractive title={
-            currentItem ? <Stack minWidth={150}>
-              {Object.keys(currentItem.stats).map(s => 
-                <Stack key={s} direction={"row"} justifyContent={"space-between"} spacing={2}>
-                  <Typography>{s}</Typography>
-                  <Typography>{currentItem.stats[s]}</Typography>
+          <Tooltip
+            placement="right"
+            disableInteractive
+            title={
+              currentItem ? (
+                <Stack minWidth={150}>
+                  <TooltipInfo
+                    label={currentItem.name}
+                    sx={{
+                      label: {
+                        color: theme.palette.primary.light,
+                        fontWeight: "bold",
+                      },
+                    }}
+                  />
+                  <TooltipInfo
+                    label={"ID"}
+                    value={currentItem.item_id}
+                  />
+                  {!!currentItem.item_category && <TooltipInfo
+                    label={"Categoria"}
+                    value={currentItem.item_category}
+                  />}
+                  {!!currentItem.equip_slot && <TooltipInfo
+                    label={"Slot"}
+                    value={currentItem.equip_slot}
+                  />}
+                  {!!currentItem.item_level && <TooltipInfo
+                    label={"Andar Minimo"}
+                    value={currentItem.item_level}
+                  />}
+                  {!!currentItem.gold_value && <TooltipInfo
+                    label={"Valor"}
+                    value={currentItem.gold_value}
+                  />}
+                  <TooltipInfo
+                    label={"Peso"}
+                    value={currentItem.weight_value || 0}
+                  />
+                  <Divider color={"white"}/>
+                  <TooltipInfo
+                    label={"Status"}
+                    sx={{
+                      label: {
+                        color: theme.palette.primary.light,
+                        fontWeight: "bold",
+                      },
+                    }}
+                  />
+                  {Object.keys(currentItem.stats).map((s) => (
+                    <TooltipInfo
+                      key={s}
+                      label={s}
+                      value={currentItem.stats[s]}
+                    />
+                  ))}
                 </Stack>
-              )}
-            </Stack> : undefined
-          }>
-          <Box
-            sx={{
-              backgroundImage:
-                currentItem && currentItem.item_images
-                  ? `url(${
-                      currentItem.item_images[
-                        index % currentItem.item_images.length
-                      ] || ""
-                    })`
-                  : undefined,
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              borderRadius: 1,
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              display: "flex",
-              alignItems: "end",
-              justifyContent: "center",
-              m: 0.5,
-              transition: "background-image 0.2s ease-in-out",
-            }}
-          />
+              ) : undefined
+            }
+          >
+            <Box
+              sx={{
+                backgroundImage:
+                  currentItem && currentItem.item_images
+                    ? `url(${
+                        currentItem.item_images[
+                          index % currentItem.item_images.length
+                        ] || ""
+                      })`
+                    : undefined,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                borderRadius: 1,
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                display: "flex",
+                alignItems: "end",
+                justifyContent: "center",
+                m: 0.5,
+                transition: "background-image 0.2s ease-in-out",
+              }}
+            />
           </Tooltip>
         )}
         {item && item.count > 1 && (
@@ -156,7 +213,7 @@ export function ItemSlot({
             )}
             {(!showInfData || showInfData.gold) && (
               <Chip
-                tooltip={"Preço"}
+                tooltip={"Valor"}
                 icon={"money"}
                 label={currentItem.gold_value}
               />
@@ -168,7 +225,7 @@ export function ItemSlot({
                 label={currentItem.weight_value}
               />
             )}
-            {(currentItem && false) && (
+            {currentItem && false && (
               <Chip
                 tooltip={"Andar Minimo"}
                 icon={"Inventory_Drop"}
@@ -179,6 +236,21 @@ export function ItemSlot({
           <Typography>{currentItem?.name || "Missingno"}</Typography>
         </Stack>
       )}
+    </Stack>
+  );
+}
+
+interface TooltipInfoProps {
+  sx?: { label?: SxProps; value?: SxProps };
+  label?: string;
+  value?: any;
+}
+
+function TooltipInfo({ label, value, sx }: TooltipInfoProps) {
+  return (
+    <Stack direction={"row"} justifyContent={"space-between"} spacing={2}>
+      <Typography sx={sx?.label}>{label}</Typography>
+      <Typography sx={sx?.value}>{value}</Typography>
     </Stack>
   );
 }

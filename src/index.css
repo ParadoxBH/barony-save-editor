@@ -1,0 +1,115 @@
+/* -------------------------------
+   RESET E BASE GLOBAL
+---------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: #e0e0e0;
+  background-color: #121212;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------------------
+   LAYOUT PRINCIPAL
+---------------------------------- */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* O #root cobre toda a viewport */
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------------------
+   LINKS E BOTÕES
+---------------------------------- */
+a {
+  color: #4e8cff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #82b1ff;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  background-color: #1976d2;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+/* -------------------------------
+   HEADERS, FOOTERS E CONTAINERS
+---------------------------------- */
+header, footer {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 1rem 2rem;
+  flex-shrink: 0;
+}
+
+main {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* -------------------------------
+   MODO CLARO AUTOMÁTICO
+---------------------------------- */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #222;
+    background-color: #fafafa;
+  }
+
+  header, footer {
+    background-color: #f1f1f1;
+    color: #222;
+  }
+
+  button {
+    background-color: #1976d2;
+  }
+
+  button:hover {
+    background-color: #1565c0;
+  }
+}

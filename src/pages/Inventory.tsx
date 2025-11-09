@@ -35,6 +35,15 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const ROWS = 8;
   const COLS = 5;
 
+  function itensInBag(item: Item) {
+    const { x, y } = item;
+    //É uma spell ?
+    if (item.type === 162) return false;
+    //Esta dentro da area do inventario ?
+    if (x >= 0 && x < COLS && y >= 0 && y < ROWS) return true;
+    return false;
+  }
+
   // Cria uma matriz 5x8 e preenche com os itens baseado em suas coordenadas x, y
   const createGrid = () => {
     const grid: (Item | null)[][] = Array(ROWS)
@@ -43,7 +52,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
     const gridItem: { [key: string]: number } = {};
     inventory?.forEach((item, index) => {
       const { x, y } = item;
-      if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+      if (itensInBag(item)) {
         grid[y][x] = item;
         gridItem[`${x}_${y}`] = index;
       }
@@ -73,9 +82,14 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
 
   function handleDeleteItem() {
     setEditSlot(undefined);
-    if (!inventory || editSlot === undefined || editSlot.inventoryId === undefined) return;
+    if (
+      !inventory ||
+      editSlot === undefined ||
+      editSlot.inventoryId === undefined
+    )
+      return;
     let newInv = [...inventory];
-    newInv.splice(editSlot.inventoryId)
+    newInv.splice(editSlot.inventoryId);
     dispatch(setPlayerStatsInventory(newInv));
   }
 

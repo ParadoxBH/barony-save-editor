@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # ← Adicione esta seção
+
 jobs:
     build-deploy:
         runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
         steps:
             # Checkout the repository
             - name: Checkout code
-              uses: actions/acheckout@v3
+              uses: actions/checkout@v3
 
             # Setup Nodejs
             - name: Setup Node.js

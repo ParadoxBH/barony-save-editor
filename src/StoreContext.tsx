@@ -9,18 +9,20 @@ import type { ReactNode } from "react";
 import { items } from "../public/items.json";
 export type ItemDataMap = { [key: string]: ItemData };
 
+export const TAB_INVENTORY = 0;
+
 export interface ItemData {
   name?: string;
-  item_id: number;//key
-  third_person_model_index: number;//3D Model
-  first_person_model_index: number;//3D Model
-  gold_value: number;//Valor
-  weight_value: number;//Peso
-  item_level: number;//Andar minimo para se encontrar
-  item_category: string;//Grupo do item
-  equip_slot: string;//Slot de Equipamento
-  item_images: string[];//Path imagens
-  stats: { [key: string]: number };//Modificadores
+  item_id: number; //key
+  third_person_model_index: number; //3D Model
+  first_person_model_index: number; //3D Model
+  gold_value: number; //Valor
+  weight_value: number; //Peso
+  item_level: number; //Andar minimo para se encontrar
+  item_category: string; //Grupo do item
+  equip_slot: string; //Slot de Equipamento
+  item_images: string[]; //Path imagens
+  stats: { [key: string]: number }; //Modificadores
   tooltip: { [key: string]: string };
 }
 
@@ -32,6 +34,7 @@ function getItemsMapped(items: ItemDataMap) {
 }
 
 type ApplicationState = {
+  tab: number;
   saveData?: SaveData;
   saveName?: string;
 
@@ -41,6 +44,7 @@ type ApplicationState = {
 };
 
 const initialApplicationState: ApplicationState = {
+  tab: TAB_INVENTORY,
   itens: getItemsMapped(items as ItemDataMap),
 };
 
@@ -63,16 +67,27 @@ const applicationSlice = createSlice({
     setPlayerSelected(state: ApplicationState, action: PayloadAction<number>) {
       state.playerSelected = action.payload;
     },
-    setPlayerStatsInventory(state: ApplicationState, action: PayloadAction<Item[]>) {
-      if(!state.saveData || state.playerSelected === undefined)
-        return;
-      state.saveData.players[state.playerSelected].stats.inventory = action.payload;
+    setPlayerStatsInventory(
+      state: ApplicationState,
+      action: PayloadAction<Item[]>
+    ) {
+      if (!state.saveData || state.playerSelected === undefined) return;
+      state.saveData.players[state.playerSelected].stats.inventory =
+        action.payload;
+    },
+    setTab(state: ApplicationState, action: PayloadAction<number>) {
+      state.tab = action.payload;
     },
   },
 });
 
-export const { setLanguage, setSaveData, setPlayerSelected, setPlayerStatsInventory } =
-  applicationSlice.actions;
+export const {
+  setLanguage,
+  setSaveData,
+  setPlayerSelected,
+  setPlayerStatsInventory,
+  setTab,
+} = applicationSlice.actions;
 
 // Configuração da store
 export const store = configureStore({

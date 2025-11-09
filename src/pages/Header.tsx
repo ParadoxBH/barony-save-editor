@@ -19,12 +19,12 @@ import {
   useAppSelector,
   useAppDispatch,
   setPlayerSelected,
+  TAB_INVENTORY,
+  setTab,
 } from "../StoreContext";
 
-const TAB_INVENTORY = 0;
-
 export function Header() {
-  const { tab, setTab, saveData, saveName, playerSelected } = useAppSelector(
+  const { tab, saveData, saveName, playerSelected } = useAppSelector(
     (s) => s.common
   );
   const dispatch = useAppDispatch();

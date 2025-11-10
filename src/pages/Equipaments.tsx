@@ -1,13 +1,15 @@
 import { Paper, Box, Stack, Typography } from "@mui/material";
 import { ItemSlot, getSlotColor } from "../components/ItemSlot";
-import { getCharacter } from "../StoreContext";
-import type { EquipmentSlotFirst } from "../utils/EditorDefinition";
-import { ItemSelectionDialog } from "../components/ItemSelectionDialog";
+import { getCharacter, setPlayerEquipament, useAppDispatch } from "../StoreContext";
+import type { EquipmentSlotFirst, Item } from "../utils/EditorDefinition";
 import { useState } from "react";
+import { genItemNull, ItemEditor } from "./ItemEditor";
 
 export function Equipaments() {
   const character = getCharacter();
   const [slotEdit, setSlotEdit] = useState<string | undefined>(undefined);
+  const [itemEdit, setItemEdit] = useState<Item | undefined>(undefined);
+  const dispatch = useAppDispatch();
 
   const slotsL: EquipmentSlotFirst[] = [
     "mask",//
@@ -24,6 +26,41 @@ export function Equipaments() {
     "shoes",
     "weapon",//
   ];
+
+  function handleOnEdit(slot: string)
+  {
+    setSlotEdit(slot);
+    setItemEdit(character && slot in character?.equipment ? character?.equipment[slot] : genItemNull())
+  }
+
+  function handleDeleteItem()
+  {
+    if(character && slotEdit)
+    {
+      const equipment = {...character.equipment};
+      delete equipment[slotEdit];
+      dispatch(setPlayerEquipament(equipment));
+    }
+    handleClose();
+  }
+
+  function handleChangeItem(item: Item)
+  {
+    if(character && slotEdit)
+    {
+      const equipment = {...character.equipment};
+      equipment[slotEdit] = item;
+      dispatch(setPlayerEquipament(equipment));
+    }
+    handleClose();
+  }
+
+
+  function handleClose()
+  {
+    setSlotEdit(undefined);
+    setItemEdit(undefined);
+  }
 
   return (
     <Paper elevation={3}>
@@ -42,7 +79,7 @@ export function Equipaments() {
               <ItemSlot
                 key={`slot_${s}`}
                 item={character?.equipment[s] || null}
-                onClick={() => setSlotEdit(s)}
+                onClick={() => handleOnEdit(s)}
               />
             ))}
           </Stack>
@@ -59,20 +96,16 @@ export function Equipaments() {
               <ItemSlot
                 key={`slot_${s}`}
                 item={character?.equipment[s] || null}
-                onClick={() => setSlotEdit(s)}
+                onClick={() => handleOnEdit(s)}
               />
             ))}
           </Stack>
         </Stack>
-        <ItemSelectionDialog
-          open={false}
-          onClose={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-          onSelectItem={function (item: number): void {
-            throw new Error("Function not implemented.");
-          }}
-          value={0}
+        <ItemEditor 
+          item={itemEdit}
+          onChange={handleChangeItem}
+          onClose={handleClose}
+          onDelete={handleDeleteItem}
         />
       </Stack>
     </Paper>

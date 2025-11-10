@@ -4,7 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import type { Item, EditorData } from "./utils/EditorDefinition";
+import type { EditorData, PlayerEquipment, PlayerInventory } from "./utils/EditorDefinition";
 import type { ReactNode } from "react";
 import { items } from "../public/items.json";
 export type ItemDataMap = { [key: string]: ItemData };
@@ -69,9 +69,17 @@ const applicationSlice = createSlice({
     setPlayerSelected(state: ApplicationState, action: PayloadAction<number>) {
       state.playerSelected = action.payload;
     },
+    setPlayerEquipament(
+      state: ApplicationState,
+      action: PayloadAction<PlayerEquipment>
+    ) {
+      if (!state.saveData || state.playerSelected === undefined) return;
+      state.saveData.players[state.playerSelected].equipment =
+        action.payload;
+    },
     setPlayerInventory(
       state: ApplicationState,
-      action: PayloadAction<{[key: string]: Item}>
+      action: PayloadAction<PlayerInventory>
     ) {
       if (!state.saveData || state.playerSelected === undefined) return;
       state.saveData.players[state.playerSelected].inventory =
@@ -88,6 +96,7 @@ export const {
   setSaveData,
   setPlayerSelected,
   setPlayerInventory,
+  setPlayerEquipament,
   setTab,
 } = applicationSlice.actions;
 

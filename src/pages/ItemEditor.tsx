@@ -137,7 +137,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
             variant="contained"
             color="primary"
             onClick={editedItem ? () => onChange(editedItem) : undefined}
-            disabled={!editedItem}
+            disabled={!editedItem || editedItem.type < 0}
           >
             Confirmar
           </Button>
@@ -148,6 +148,14 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
         <form onSubmit={handleSubmit}>
           {editedItem && (
             <Stack spacing={2}>
+              {!currentItemData && (
+                <Button
+                  variant="outlined"
+                  onClick={() => setShowEditItem(true)}
+                >
+                  <Typography>Click para selecionar o item</Typography>
+                </Button>
+              )}
               {currentItemData && (
                 <Stack direction={"row"} alignItems={"center"} spacing={2}>
                   <Button
@@ -167,19 +175,19 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                       />
                     </Stack>
                   </Button>
-                  <ItemSelectionDialog
-                    open={showEditItem}
-                    onClose={() => setShowEditItem(false)}
-                    onSelectItem={(item) => {
-                      setShowEditItem(false);
-                      handleTextFieldChange({
-                        target: { name: "type", value: item },
-                      });
-                    }}
-                    value={editedItem.type}
-                  />
                 </Stack>
               )}
+              <ItemSelectionDialog
+                open={showEditItem}
+                onClose={() => setShowEditItem(false)}
+                onSelectItem={(item) => {
+                  setShowEditItem(false);
+                  handleTextFieldChange({
+                    target: { name: "type", value: item },
+                  });
+                }}
+                value={editedItem.type}
+              />
 
               <InputSlider
                 label="Durabilidade"

@@ -7,7 +7,7 @@ import {
   Typography,
   type SxProps,
 } from "@mui/material";
-import type { Item } from "./SaveDefinition";
+import type { Item } from "../utils/EditorDefinition";
 import { useEffect, useState } from "react";
 import { Chip } from "./Chip";
 import { useAppSelector } from "../StoreContext";

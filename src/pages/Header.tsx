@@ -13,7 +13,7 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import type { SaveData } from "../components/SaveDefinition";
+import type { GameData } from "../utils/SaveDefinition";
 import {
   setSaveData,
   useAppSelector,
@@ -23,9 +23,10 @@ import {
   setTab,
   TAB_EQUIPAMENT,
 } from "../StoreContext";
+import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 
 export function Header() {
-  const { tab, saveData, saveName, playerSelected } = useAppSelector(
+  const { tab, saveData, saveName, playerSelected, itens } = useAppSelector(
     (s) => s.common
   );
   const dispatch = useAppDispatch();
@@ -38,8 +39,8 @@ export function Header() {
         try {
           const result = e.target?.result;
           if (typeof result === "string") {
-            const json: SaveData = JSON.parse(result);
-            dispatch(setSaveData({ saveName: file.name, saveData: json }));
+            const json: GameData = JSON.parse(result);
+            dispatch(setSaveData({ saveName: file.name, saveData: parseToEditor(itens, json) }));
           }
         } catch (error) {
           alert("Erro ao carregar arquivo: " + (error as Error).message);
@@ -55,7 +56,7 @@ export function Header() {
       return;
     }
 
-    const dataStr = JSON.stringify(saveData, null, 4);
+    const dataStr = JSON.stringify(parseToSave(saveData), null, 4);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement("a");
@@ -141,17 +142,17 @@ export function Header() {
         </Stack>
         <Stack direction="row" spacing={2} alignItems={"center"}>
           <Typography sx={{ color: "#666" }}>
-            🎮 Game: {saveData?.game_name || "?"}
+            🎮 Game: {saveData?.save.game_name || "?"}
           </Typography>
           <Typography sx={{ color: "#666" }}>
-            📦 Versão: {saveData?.game_version || "?"}
+            📦 Versão: {saveData?.save.game_version || "?"}
           </Typography>
           <Typography sx={{ color: "#666" }}>
-            ⚔️ Nivel da Masmorra: {saveData?.dungeon_lvl || "?"}
+            ⚔️ Nivel da Masmorra: {saveData?.save.dungeon_lvl || "?"}
           </Typography>
           <Typography sx={{ color: "#666" }}>
             👥 Jogadores:{" "}
-            {saveData?.players_connected.filter((p) => p === 1).length || "?"}
+            {saveData?.save.players_connected.filter((p) => p === 1).length || "?"}
           </Typography>
           {saveData && (
             <>
@@ -201,7 +202,7 @@ export function Header() {
                   </MenuItem>
                   {saveData?.players.map((p, index) => (
                     <MenuItem key={index} value={index}>
-                      {p.stats.name || `Jogador ${index}`}
+                      {p.name || `Jogador ${index}`}
                     </MenuItem>
                   ))}
                 </Select>

@@ -4,20 +4,17 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
-  Paper,
   Typography,
   Stack,
   Box,
-  Divider,
-  Slide,
-  Slider,
 } from "@mui/material";
-import type { Item } from "../components/SaveDefinition";
+import type { Item } from "../utils/EditorDefinition";
 import { ItemSlot } from "../components/ItemSlot";
 import { ItemSelectionDialog } from "../components/ItemSelectionDialog";
 import { useAppSelector } from "../StoreContext";
 import { StyledDialog } from "../components/StyledDialog";
 import { InputSlider } from "../components/InputSlider";
+import { guid } from "../utils/utils";
 
 // 2. Definição da Interface das Props do Componente
 interface InventoryItemEditorProps {
@@ -30,7 +27,9 @@ interface InventoryItemEditorProps {
 
 export function genItemNull() {
   return {
-    type: 0,
+    _uuid: guid(),
+    item_id: "",
+    type: -1,
     status: 1,
     appearance: 0,
     beatitude: 0,

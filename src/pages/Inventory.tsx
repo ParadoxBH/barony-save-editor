@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { Box, Grid, Paper, Stack, Tooltip, Typography } from "@mui/material";
-import type { Item, Stats } from "../components/SaveDefinition";
+import type { Item } from "../utils/EditorDefinition";
 
 import { ItemSlot } from "../components/ItemSlot";
 import {
   getCharacter,
-  setPlayerStatsInventory,
+  setPlayerInventory,
   useAppDispatch,
 } from "../StoreContext";
 import { genItemNull, ItemEditor } from "./ItemEditor";
+import type { Player } from "../utils/EditorDefinition";
 
 export const ITEMID_BACKPACK = 220;
+export const ITEMID_SPELL = 162;
+export const ITEMREF_NULL = 4294967295;
 
 interface InventoryGridProps {}
 
@@ -25,31 +28,17 @@ export interface slotEditing {
   x: number;
   y: number;
   item?: Item;
-  inventoryId?: number;
 }
 
-export function includeEquipamentBag(stats?: Stats | undefined) {
-  return !!stats?.player_equipment.find((slot) => {
-    const item = slot.second;
-    
-    // Se for um objeto Item, verifica o status diretamente
-    if (typeof item === "object" && item !== null) {
-      return item.status === ITEMID_BACKPACK;
-    }
-    
-    // Se for um número, busca no inventory
-    if (typeof item === "number" && item >= 0 && item < stats.inventory.length && stats.inventory[item]) {
-      return stats.inventory[item].type === ITEMID_BACKPACK;
-    }
-    
-    return false;
-  });
+export function includeEquipamentBag(player?: Player) {
+  return !!Object.values(player?.equipment || [])
+  .find((slot) => slot.type === ITEMID_BACKPACK);
 }
 
 // Componente principal do inventário
 export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const [editSlot, setEditSlot] = useState<slotEditing | undefined>(undefined);
-  const stats = getCharacter()?.stats;
+  const stats = getCharacter();
   const inventory = stats?.inventory;
   const dispatch = useAppDispatch();
 
@@ -59,7 +48,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   function itensInBag(item: Item) {
     const { x, y } = item;
     //É uma spell ?
-    if (item.type === 162) return false;
+    if (item.type === ITEMID_SPELL) return false;
     //Esta dentro da area do inventario ?
     if (x >= 0 && x < COLS && y >= 0 && y < ROWS) return true;
     return false;
@@ -67,21 +56,18 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
 
   // Cria uma matriz 5x8 e preenche com os itens baseado em suas coordenadas x, y
   const createGrid = () => {
-    const grid: (Item | null)[][] = Array(ROWS)
+    const grid: (string)[][] = Array(ROWS)
       .fill(null)
       .map(() => Array(COLS).fill(null));
-    const gridItem: { [key: string]: number } = {};
-    inventory?.forEach((item, index) => {
+    (Object.values(inventory || [])).forEach((item) => {
       const { x, y } = item;
-      if (itensInBag(item)) {
-        grid[y][x] = item;
-        gridItem[`${x}_${y}`] = index;
-      }
+      if (itensInBag(item))
+        grid[y][x] = item._uuid;
     });
-    return { grid, gridItem };
+    return grid ;
   };
 
-  const { grid, gridItem } = createGrid();
+  const grid = createGrid();
 
   const handleSlotClick = (props: slotEditing): void => {
     setEditSlot(props);
@@ -95,10 +81,9 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   function handleSetItemSlot(item: Item) {
     setEditSlot(undefined);
     if (!inventory || editSlot === undefined) return;
-    let newInv = [...inventory];
-    if (editSlot.inventoryId !== undefined) newInv[editSlot.inventoryId] = item;
-    else newInv.push({ ...item, x: editSlot.x, y: editSlot.y });
-    dispatch(setPlayerStatsInventory(newInv));
+    let newInv = {...inventory};
+    newInv[item._uuid] = item;
+    dispatch(setPlayerInventory(newInv));
   }
 
   function handleDeleteItem() {
@@ -106,12 +91,12 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
     if (
       !inventory ||
       editSlot === undefined ||
-      editSlot.inventoryId === undefined
+      editSlot.item === undefined
     )
       return;
-    let newInv = [...inventory];
-    newInv.splice(editSlot.inventoryId);
-    dispatch(setPlayerStatsInventory(newInv));
+    let newInv = {...inventory};
+    delete(newInv[editSlot.item?._uuid]);
+    dispatch(setPlayerInventory(newInv));
   }
 
   return (
@@ -129,23 +114,19 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
                 {row.map((item, colIndex) => (
                   <Grid size={12 / COLS} key={`${colIndex}-${rowIndex}`}>
                     <Tooltip
-                      title={getTooltipTitle(item)}
+                      title={getTooltipTitle(inventory ? inventory[item] || null : null)}
                       arrow
                       disableInteractive
                       placement="right"
                     >
                       <ItemSlot
-                        item={item}
-                        selected={
-                          gridItem[`${colIndex}_${rowIndex}`] ===
-                          editSlot?.inventoryId
-                        }
+                        item={inventory ? inventory[item] || null : null}
+                        selected={item === editSlot?.item?._uuid}
                         onClick={() =>
                           handleSlotClick({
                             x: colIndex,
                             y: rowIndex,
-                            item: item || genItemNull(),
-                            inventoryId: gridItem[`${colIndex}_${rowIndex}`],
+                            item: inventory ? inventory[item] || genItemNull() : genItemNull(),
                           })
                         }
                       />

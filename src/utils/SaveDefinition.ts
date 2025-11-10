@@ -9,12 +9,9 @@ interface Item {
   x: number;
   y: number;
 }
-
-type EquipmentSlotFirst = "amulet" | "weapon" | "shield" | "gloves" | "ring" | "cloak" | "boots" | "breastplate" | "helmet" | "mask" ;
-
 // Equipment slot mapping
 interface EquipmentSlot {
-  first: EquipmentSlotFirst;
+  first: string;
   second: number | Item;
 }
 
@@ -110,6 +107,14 @@ interface ItemDegradeRng {
   second: number;
 }
 
+interface Recipe {
+  
+}
+
+interface Scroll {
+  
+}
+
 // Player data
 interface Player {
   char_class: number;
@@ -126,8 +131,8 @@ interface Player {
   selected_spell_alternate: number[];
   selected_spell_last_appearance: number;
   spells: number[];
-  recipes: any[];
-  scrolls: any[];
+  recipes: Recipe[];
+  scrolls: Scroll[];
   stats: Stats;
   followers: Follower[];
   game_statistics: number[];
@@ -144,7 +149,7 @@ interface MapMessage {
 }
 
 // Main save file structure
-interface SaveData {
+interface GameData {
   magic_cookie: string;
   game_version: number;
   timestamp: string;
@@ -168,7 +173,7 @@ interface SaveData {
 }
 
 // Type guard para validar o save file
-function isBaronySaveFile(obj: any): obj is SaveData {
+function isBaronySaveFile(obj: any): obj is GameData {
   return (
     obj &&
     obj.magic_cookie === "BARONYJSONSAVE" &&
@@ -179,18 +184,9 @@ function isBaronySaveFile(obj: any): obj is SaveData {
 }
 
 export type {
-  SaveData,
+  GameData,
   Player,
-  Stats,
-  Item,
-  EquipmentSlot,
-  EquipmentSlotFirst,
-  Follower,
-  ShopkeeperHostility,
-  ShopkeeperHostilityData,
-  CompendiumItemEvent,
-  ItemDegradeRng,
-  MapMessage
+  Item
 };
 
 export { isBaronySaveFile };

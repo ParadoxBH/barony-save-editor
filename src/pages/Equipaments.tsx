@@ -1,42 +1,28 @@
 import { Paper, Box, Stack, Typography } from "@mui/material";
 import { ItemSlot, getSlotColor } from "../components/ItemSlot";
 import { getCharacter } from "../StoreContext";
-import type { EquipmentSlotFirst } from "../components/SaveDefinition";
+import type { EquipmentSlotFirst } from "../utils/EditorDefinition";
 import { ItemSelectionDialog } from "../components/ItemSelectionDialog";
 import { useState } from "react";
 
 export function Equipaments() {
   const character = getCharacter();
-  const inventory = character?.stats.inventory || [];
-  const equipment = character?.stats.player_equipment || [];
   const [slotEdit, setSlotEdit] = useState<string | undefined>(undefined);
 
-  function getItemSlot(slot_name?: EquipmentSlotFirst) {
-    const slot = equipment.findIndex((e) => e.first === slot_name);
-    if (slot < 0) return null;
-    if (slot < equipment.length && equipment[slot].second !== undefined) {
-      if (typeof equipment[slot].second === "object")
-        return equipment[slot].second;
-      else if (equipment[slot].second < inventory.length)
-        return inventory[equipment[slot].second];
-    }
-    return null;
-  }
-
   const slotsL: EquipmentSlotFirst[] = [
-    "mask",
-    "cloak",
-    "amulet",
-    "ring",
-    "shield",
+    "mask",//
+    "cloak",//
+    "amulet",//
+    "ring",//
+    "shield",//
   ];
 
   const slotsR: EquipmentSlotFirst[] = [
-    "helmet",
-    "breastplate",
-    "gloves",
-    "boots",
-    "weapon",
+    "helmet",//
+    "breastplate",//
+    "gloves",//
+    "shoes",
+    "weapon",//
   ];
 
   return (
@@ -55,7 +41,7 @@ export function Equipaments() {
             {slotsL.map((s) => (
               <ItemSlot
                 key={`slot_${s}`}
-                item={getItemSlot(s)}
+                item={character?.equipment[s] || null}
                 onClick={() => setSlotEdit(s)}
               />
             ))}
@@ -72,7 +58,7 @@ export function Equipaments() {
             {slotsR.map((s) => (
               <ItemSlot
                 key={`slot_${s}`}
-                item={getItemSlot(s)}
+                item={character?.equipment[s] || null}
                 onClick={() => setSlotEdit(s)}
               />
             ))}

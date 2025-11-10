@@ -21,6 +21,7 @@ import {
   setPlayerSelected,
   TAB_INVENTORY,
   setTab,
+  TAB_EQUIPAMENT,
 } from "../StoreContext";
 
 export function Header() {
@@ -135,6 +136,7 @@ export function Header() {
             aria-label="basic tabs example"
           >
             <Tab label="Inventario" value={TAB_INVENTORY} />
+            <Tab label="Equipamentos" value={TAB_EQUIPAMENT} />
           </Tabs>
         </Stack>
         <Stack direction="row" spacing={2} alignItems={"center"}>

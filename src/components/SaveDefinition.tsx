@@ -10,9 +10,11 @@ interface Item {
   y: number;
 }
 
+type EquipmentSlotFirst = "amulet" | "weapon" | "shield" | "gloves" | "ring" | "cloak" | "boots" | "breastplate" | "helmet" | "mask" ;
+
 // Equipment slot mapping
 interface EquipmentSlot {
-  first: string; // e.g., "helmet", "breastplate", "gloves", etc.
+  first: EquipmentSlotFirst;
   second: number | Item;
 }
 
@@ -182,6 +184,7 @@ export type {
   Stats,
   Item,
   EquipmentSlot,
+  EquipmentSlotFirst,
   Follower,
   ShopkeeperHostility,
   ShopkeeperHostilityData,

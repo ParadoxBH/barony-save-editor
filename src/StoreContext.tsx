@@ -10,6 +10,7 @@ import { items } from "../public/items.json";
 export type ItemDataMap = { [key: string]: ItemData };
 
 export const TAB_INVENTORY = 0;
+export const TAB_EQUIPAMENT = 1;
 
 export interface ItemData {
   name?: string;

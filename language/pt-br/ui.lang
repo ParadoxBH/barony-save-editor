@@ -1,0 +1,26 @@
+# Painel presente no canto superior direito com as ações basica do programa
+load_file: Carregar Save # Texto do botão que carrega o arquivo para o programa
+file_name_label: Arquivo carregado # Label que exibe o nome do arquivo que foi carregado pelo usuario no programa
+file_name_empty: Nenhum arquivo carregado # Texto exibido no campo caso não tenha nenhum arquivo carregado
+get_file: Baixar Save # Texto no botão que baixa o save alterado pelo programa
+select_language_title: Selecione o Idioma # Texto que é exibido na janela de seleção de idioma
+
+# Caso não tenha nenhum save carregado o programa exibe um dialog com um aviso
+empty_load_file_title: Save não carregado # titulo do dialog
+empty_load_file_label: Pressione no botão "Carregar Save" presente no canto superior direito para continuar # texto do dialog, avisando que o jogador precisa carregar um arquivo para continuar e que o botão esta no canto superior direito da tela com o texto presente em 'load_file'
+
+# Informações sobre o arquivo de save
+save_info_game: Jogador # Nome do jogador responsavel pelo save carregado
+save_info_version: Versão # Qual é a versão atual do save do carregado
+save_info_level: Nivel da masmorra # Quantos andares já foram descidos
+save_info_player_num: Jogadores # Contagem de quantos jogadores estão salvos no lobby do save do jogo
+
+# Abas do programa
+tab_inventory: Inventario # titulo da aba que abre o inventario do jogador
+tab_equipment: Equipamentos # titulo da aba que abre os equipamentos do jogador
+
+# Seletor de jogador
+player_selector_label: Jogador # titulo do field que permite o usuario selecionar qual jogador ele ira editar
+player_selector_value_empty: Selecione um jogador # Caso não tenha escolhido nenhum jogador, irá aparecer este texto indicando que deve escolher
+player_selector_option_empty: Jogador %s # texto que é exibido caso o slot de jogador esteja vazio
+player_selector_option_null: Nenhum # texto de opção de jogador nenhum

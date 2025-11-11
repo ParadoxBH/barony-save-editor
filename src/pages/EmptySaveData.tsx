@@ -1,7 +1,9 @@
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
 import { Icon } from "../components/Icon";
+import { useLanguage } from "../components/language";
 
 export function EmptySaveData() {
+  const language = useLanguage();
   return (
     <Stack flex={1} height={"100%"} justifyContent={"center"}>
       <Card sx={{ maxWidth: 500, mx: "auto" }}>
@@ -11,10 +13,10 @@ export function EmptySaveData() {
                 📥
             </Typography>
             <Typography variant="h6" gutterBottom>
-              Save não carregado
+              {language.get("empty_load_file_title")}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary">
-              Pressione no botão "Carregar Save" presente no canto superior direito para continuar.
+              {language.get("empty_load_file_label")}
             </Typography>
           </Box>
         </CardContent>

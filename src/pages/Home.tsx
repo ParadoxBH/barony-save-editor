@@ -4,9 +4,11 @@ import { Editor } from "./Editor";
 import { Header } from "./Header";
 import { useAppSelector } from "../StoreContext";
 import { EmptySaveData } from "./EmptySaveData";
+import { LoadingSystem } from "./LoadingSystem";
 
 export function Home() {
   const {saveData} = useAppSelector(s => s.common);
+
   return (
     <Stack
       flex={1}
@@ -31,8 +33,10 @@ export function Home() {
           p: 2,
         }}
       >
-        {!saveData && <EmptySaveData/>}
-        {!!saveData && <Editor />}
+        <LoadingSystem>
+          {!saveData && <EmptySaveData/>}
+          {!!saveData && <Editor />}
+        </LoadingSystem>
       </Box>
     </Stack>
   );

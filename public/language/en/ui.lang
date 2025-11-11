@@ -1,0 +1,26 @@
+# Panel in the upper right corner with the program's basic actions
+load_file: Load Save # Text of the button that loads the file into the program
+file_name_label: Loaded file # Label that displays the name of the file loaded by the user into the program
+file_name_empty: No file loaded # Text displayed in the field when no file has been loaded
+get_file: Download Save # Text on the button that downloads the modified save file from the program
+select_language_title: Select Language # Text displayed in the language selection window
+
+# If no save file has been loaded, the program displays a dialog with a warning
+empty_load_file_title: Save not loaded # Title of the dialog
+empty_load_file_label: Click the "Load Save" button in the upper right corner to continue # Text of the dialog, warning the player that they need to load a file to continue and that the button is located in the upper right corner of the screen with the text from 'load_file'
+
+# Information about the save file
+save_info_game: Player # Name of the player responsible for the loaded save
+save_info_version: Version # The current version of the loaded save
+save_info_level: Dungeon level # How many floors have been descended
+save_info_player_num: Players # Count of how many players are saved in the game's lobby
+
+# Program tabs
+tab_inventory: Inventory # Title of the tab that opens the player's inventory
+tab_equipment: Equipment # Title of the tab that opens the player's equipment
+
+# Player selector
+player_selector_label: Player # Title of the field that allows the user to select which player they will edit
+player_selector_value_empty: Select a player # Displayed when no player has been selected, indicating that one must be chosen
+player_selector_option_empty: Player %s # Text displayed when the player slot is empty
+player_selector_option_null: None # Text for the "no player" option

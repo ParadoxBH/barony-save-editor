@@ -7,6 +7,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import type { EditorData, PlayerEquipment, PlayerInventory } from "./utils/EditorDefinition";
 import type { ReactNode } from "react";
 import { items } from "../public/items.json";
+import type { LangData, LangOptions } from "./components/language";
 export type ItemDataMap = { [key: string]: ItemData };
 
 export const TAB_INVENTORY = 0;
@@ -35,26 +36,41 @@ function getItemsMapped(items: ItemDataMap) {
 }
 
 type ApplicationState = {
+  loading: {
+    language: boolean,
+  };
   tab: number;
   saveData?: EditorData;
   saveName?: string;
 
-  language?: string;
+  language: LangData;
+  language_selected: LangOptions;
   playerSelected?: number;
   itens: ItemDataMap;
 };
 
 const initialApplicationState: ApplicationState = {
+  loading: {
+    language: false,
+  },
   tab: TAB_INVENTORY,
   itens: getItemsMapped(items as ItemDataMap),
+
+  language: {},
+  language_selected: (localStorage.getItem("last_language") as LangOptions) || "en",
+
 };
 
 const applicationSlice = createSlice({
   name: "application",
   initialState: initialApplicationState,
   reducers: {
-    setLanguage(state: ApplicationState, action: PayloadAction<string>) {
-      state.language = action.payload;
+    setLanguage(state: ApplicationState, action: PayloadAction<{language: LangData, selected: LangOptions}>) {
+      const { selected, language } =  action.payload;
+      state.language_selected = selected; 
+      state.language = language;
+      localStorage.setItem("last_language", selected);
+      state.loading = {...state.loading, language: true};
     },
     setSaveData(
       state: ApplicationState,

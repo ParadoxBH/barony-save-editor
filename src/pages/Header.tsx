@@ -83,7 +83,7 @@ export function Header() {
         justifyContent={"space-between"}
       >
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Icon name="logo" size={36} />
+          <Icon name="logo" size={36} format="svg" />
           <Typography variant="h4" sx={{ color: "white" }}>
             Barony Save Editor
           </Typography>

@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Icon } from "./Icon";
 
 export interface LangData {
   [key: string]: string;
@@ -72,7 +73,7 @@ export function useLanguage() {
 
 export function LanguageSelector() {
   const language = useLanguage();
-  const { language_selected } = useAppSelector(s => s.common);
+  const { language_selected } = useAppSelector((s) => s.common);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -84,17 +85,17 @@ export function LanguageSelector() {
   };
 
   const languages = [
-    { code: "pt-br", name: "Português", flag: "🇧🇷" },
-    { code: "en", name: "English", flag: "🇺🇸" },
+    { code: "pt-br", name: "Português" },
+    { code: "en", name: "English" },
   ];
 
   return (
     <>
-      <Button variant="outlined" color="inherit" onClick={handleOpen} size="small" sx={{borderRadius: 1}}>
-        <Typography fontSize={18} sx={{color: "white"}}>
-          {languages.find(l => l.code === language_selected)?.flag || "🌐"}
-        </Typography>
-      </Button>
+      <Stack justifyContent={"center"}>
+        <IconButton onClick={handleOpen} size="small">
+          <Icon name={`language/${language_selected}`} size={32} />
+        </IconButton>
+      </Stack>
 
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ textAlign: "center" }}>
@@ -109,7 +110,9 @@ export function LanguageSelector() {
             {languages.map((lang) => (
               <Button
                 key={lang.code}
-                variant={lang.code === language_selected ? "contained" : "outlined"}
+                variant={
+                  lang.code === language_selected ? "contained" : "outlined"
+                }
                 size="large"
                 onClick={() => handleLanguageSelect(lang.code as LangOptions)}
                 sx={{
@@ -119,10 +122,10 @@ export function LanguageSelector() {
                   textTransform: "none",
                 }}
               >
-                <Typography fontSize={24} sx={{ mr: 2 }}>
-                  {lang.flag}
-                </Typography>
-                <Typography variant="body1">{lang.name}</Typography>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
+                  <Icon name={`language/${lang.code}`} size={32} />
+                  <Typography variant="body1">{lang.name}</Typography>
+                </Stack>
               </Button>
             ))}
           </Stack>

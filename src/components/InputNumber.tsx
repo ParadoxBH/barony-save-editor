@@ -24,7 +24,11 @@ export function InputNumber({
   disabled,
 }: InputNumberProps) {
   function handleOnUpdate(e: any) {
-    const numberValue: number = parseInt(e.target.value.toString());
+    let numberValue: number = parseInt(e.target.value.toString());
+    if(min !== undefined)
+      numberValue = Math.max(numberValue, min);
+    if(max !== undefined)
+      numberValue = Math.min(numberValue, max);
     if (onChange)
       onChange({ target: { name: e.target.name, value: numberValue } });
   }

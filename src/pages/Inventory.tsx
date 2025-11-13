@@ -28,7 +28,7 @@ export interface SlotData {
 export interface slotEditing {
   x: number;
   y: number;
-  item?: Item;
+  item: Item;
 }
 
 export function includeEquipamentBag(player?: Player) {
@@ -72,6 +72,8 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const grid = createGrid();
 
   const handleSlotClick = (props: slotEditing): void => {
+    props.item.x = props.x;
+    props.item.y = props.y;
     setEditSlot(props);
   };
 

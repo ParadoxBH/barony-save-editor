@@ -7,15 +7,17 @@ import {
   Typography,
   Stack,
   Box,
+  Card,
 } from "@mui/material";
 import type { Item } from "../utils/EditorDefinition";
-import { ItemSlot } from "../components/ItemSlot";
+import { ItemIcon, ItemSlot } from "../components/ItemSlot";
 import { ItemSelectionDialog } from "../components/ItemSelectionDialog";
 import { useAppSelector } from "../StoreContext";
 import { StyledDialog } from "../components/StyledDialog";
 import { InputSlider } from "../components/InputSlider";
 import { guid } from "../utils/utils";
 import { useLanguage } from "../components/language";
+import { Icon } from "../components/Icon";
 
 // 2. Definição da Interface das Props do Componente
 interface InventoryItemEditorProps {
@@ -208,17 +210,49 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                 }}
               />
 
-              {/* Campo 'appearance' */}
-              <TextField
-                fullWidth
-                label={language.get("item_appearance")}
-                name="appearance"
-                type="number"
-                value={editedItem.appearance.toString()}
-                onChange={handleTextFieldChange}
-                margin="normal"
-                size="small"
-              />
+              {currentItemData && currentItemData.item_images.length > 1 && (
+                <Card>
+                  <Stack
+                    direction={"row"}
+                    p={1}
+                    spacing={1}
+                    alignItems={"end"}
+                    justifyContent={"space-between"}
+                  >
+                    <Stack flex={1}>
+                      <Typography variant="subtitle2" color="rgba(0,0,0,0.5)">
+                        {language.get("item_appearance")}
+                      </Typography>
+                      <Box flex={1} overflow={"auto"} display={"flex"} width={350}>
+                        <Stack direction={"row"} spacing={0.5}>
+                          {currentItemData.item_images.map((image, index) => (
+                            <Button
+                              variant={editedItem.appearance % currentItemData.item_images.length === index ? "contained" : "outlined"}
+                              sx={{ height: 32, weight: 32 }}
+                              onClick={() =>
+                                handleTextFieldChange({
+                                  target: { name: "appearance", value: index },
+                                })
+                              }
+                            >
+                              <ItemIcon image={image} />
+                            </Button>
+                          ))}
+                        </Stack>
+                      </Box>
+                    </Stack>
+                    <TextField
+                      sx={{ width: 100 }}
+                      name="appearance"
+                      type="number"
+                      value={editedItem.appearance.toString()}
+                      onChange={handleTextFieldChange}
+                      margin="normal"
+                      size="small"
+                    />
+                  </Stack>
+                </Card>
+              )}
 
               {/* Campo 'count' */}
               <TextField
@@ -236,7 +270,11 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               {/* Campo 'beatitude' */}
               <TextField
                 fullWidth
-                label={editedItem.beatitude < 0 ? language.get("item_cursed") : language.get("item_blessed")}
+                label={
+                  editedItem.beatitude < 0
+                    ? language.get("item_cursed")
+                    : language.get("item_blessed")
+                }
                 name="beatitude"
                 type="number"
                 value={editedItem.beatitude.toString()}

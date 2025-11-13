@@ -108,31 +108,40 @@ export function ItemSlot({
                       },
                     }}
                   />
-                  <TooltipInfo
-                    label={"ID"}
-                    value={currentItem.item_id}
-                  />
-                  {!!currentItem.item_category && <TooltipInfo
-                    label={language.get("item_type_label")}
-                    value={language.get(`item_type_${currentItem.item_category}`)}
-                  />}
-                  {!!currentItem.equip_slot && <TooltipInfo
-                    label={language.get("item_equip_slot")}
-                    value={language.get(`item_equip_slot_${currentItem.equip_slot}`)}
-                  />}
-                  {!!currentItem.item_level && <TooltipInfo
-                    label={language.get("item_dungeon_level")}
-                    value={currentItem.item_level}
-                  />}
-                  {!!currentItem.gold_value && <TooltipInfo
-                    label={language.get("item_price")}
-                    value={currentItem.gold_value}
-                  />}
+                  <TooltipInfo label={"ID"} value={currentItem.item_id} />
+                  {!!currentItem.item_category && (
+                    <TooltipInfo
+                      label={language.get("item_type_label")}
+                      value={language.get(
+                        `item_type_${currentItem.item_category}`
+                      )}
+                    />
+                  )}
+                  {!!currentItem.equip_slot && (
+                    <TooltipInfo
+                      label={language.get("item_equip_slot")}
+                      value={language.get(
+                        `item_equip_slot_${currentItem.equip_slot}`
+                      )}
+                    />
+                  )}
+                  {!!currentItem.item_level && (
+                    <TooltipInfo
+                      label={language.get("item_dungeon_level")}
+                      value={currentItem.item_level}
+                    />
+                  )}
+                  {!!currentItem.gold_value && (
+                    <TooltipInfo
+                      label={language.get("item_price")}
+                      value={currentItem.gold_value}
+                    />
+                  )}
                   <TooltipInfo
                     label={language.get("item_dungeon_weight")}
                     value={currentItem.weight_value || 0}
                   />
-                  <Divider color={"white"}/>
+                  <Divider color={"white"} />
                   <TooltipInfo
                     label={language.get("item_status")}
                     sx={{
@@ -153,30 +162,14 @@ export function ItemSlot({
               ) : undefined
             }
           >
-            <Box
-              sx={{
-                backgroundImage:
-                  currentItem && currentItem.item_images
-                    ? `url(${
-                        currentItem.item_images[
-                          index % currentItem.item_images.length
-                        ] || ""
-                      })`
-                    : undefined,
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat",
-                borderRadius: 1,
-                position: "absolute",
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
-                display: "flex",
-                alignItems: "end",
-                justifyContent: "center",
-                m: 0.5,
-                transition: "background-image 0.2s ease-in-out",
-              }}
+            <ItemIcon
+              image={
+                currentItem && currentItem.item_images
+                  ? currentItem.item_images[
+                      index % currentItem.item_images.length
+                    ]
+                  : undefined
+              }
             />
           </Tooltip>
         )}
@@ -247,5 +240,28 @@ function TooltipInfo({ label, value, sx }: TooltipInfoProps) {
       <Typography sx={sx?.label}>{label}</Typography>
       <Typography sx={sx?.value}>{value}</Typography>
     </Stack>
+  );
+}
+
+export function ItemIcon({ image }: { image?: string }) {
+  return (
+    <Box
+      sx={{
+        backgroundImage: `url(${image || "./items/images/null.png"})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        borderRadius: 1,
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        display: "flex",
+        alignItems: "end",
+        justifyContent: "center",
+        m: 0.5,
+        transition: "background-image 0.2s ease-in-out",
+      }}
+    />
   );
 }

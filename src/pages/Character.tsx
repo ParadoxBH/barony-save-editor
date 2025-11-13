@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import {
   setPlayerStats,
   useAppDispatch,
@@ -8,6 +8,7 @@ import type { Player, PlayerStats } from "../utils/EditorDefinition";
 import { useLanguage } from "../components/language";
 import { InputStatus } from "../components/InputStatus";
 import { InputSlider } from "../components/InputSlider";
+import { InputNumber } from "../components/InputNumber";
 
 interface CharacterProps {
   player?: Player;
@@ -122,16 +123,12 @@ export const Character: React.FC<CharacterProps> = ({ player }) => {
                 `${Math.round((value / (player?.stats.maxHP || 0)) * 100)}%`
               }
             />
-            <TextField
+            <InputNumber
               fullWidth
               name={"maxHP"}
-              type="number"
-              value={player?.stats.maxHP || 0}
-              margin="normal"
-              size="small"
-              inputProps={{ min: 1 }}
+              value={player?.stats.maxHP}
+              min={1}
               sx={{ width: 100 }}
-              //@ts-ignore
               onChange={handleUpdateMaxHP}
             />
           </Stack>
@@ -153,16 +150,12 @@ export const Character: React.FC<CharacterProps> = ({ player }) => {
                 `${Math.round((value / (player?.stats.maxMP || 0)) * 100)}%`
               }
             />
-            <TextField
+            <InputNumber
               fullWidth
               name={"maxMP"}
-              type="number"
-              value={player?.stats.maxMP || 0}
-              margin="normal"
-              size="small"
-              inputProps={{ min: 1 }}
+              value={player?.stats.maxMP}
+              min={1}
               sx={{ width: 100 }}
-              //@ts-ignore
               onChange={handleUpdateMaxMP}
             />
           </Stack>
@@ -185,27 +178,20 @@ export const Character: React.FC<CharacterProps> = ({ player }) => {
             labelValue={(value) => `${Math.round(value / 10)}%`}
           />
           <Stack spacing={2} alignItems={"center"} direction={"row"}>
-            <TextField
+            <InputNumber
               fullWidth
               label={language.get("player_stats_lvl")}
               name={"LVL"}
-              type="number"
-              value={player?.stats.LVL || 0}
-              margin="normal"
-              size="small"
-              inputProps={{ min: 1 }}
-              //@ts-ignore
+              value={player?.stats.LVL}
+              min={1}
               onChange={handleUpdateStats}
             />
-            <TextField
+            <InputNumber
               fullWidth
               label={language.get("player_stats_gold")}
               name={"GOLD"}
-              type="number"
-              value={player?.stats.GOLD || 0}
-              margin="normal"
-              size="small"
-              //@ts-ignore
+              min={0}
+              value={player?.stats.GOLD}
               onChange={handleUpdateStats}
             />
           </Stack>

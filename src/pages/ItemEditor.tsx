@@ -17,7 +17,7 @@ import { StyledDialog } from "../components/StyledDialog";
 import { InputSlider } from "../components/InputSlider";
 import { guid } from "../utils/utils";
 import { useLanguage } from "../components/language";
-import { Icon } from "../components/Icon";
+import { InputNumber } from "../components/InputNumber";
 
 // 2. Definição da Interface das Props do Componente
 interface InventoryItemEditorProps {
@@ -241,34 +241,28 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                         </Stack>
                       </Box>
                     </Stack>
-                    <TextField
+                    <InputNumber
                       sx={{ width: 100 }}
                       name="appearance"
-                      type="number"
-                      value={editedItem.appearance.toString()}
+                      value={editedItem.appearance}
                       onChange={handleTextFieldChange}
-                      margin="normal"
-                      size="small"
                     />
                   </Stack>
                 </Card>
               )}
 
               {/* Campo 'count' */}
-              <TextField
+              <InputNumber
                 fullWidth
                 label={language.get("item_count")}
                 name="count"
-                type="number"
-                value={editedItem.count.toString()}
+                value={editedItem.count}
                 onChange={handleTextFieldChange}
-                margin="normal"
-                size="small"
-                inputProps={{ min: 1 }}
+                min={1}
               />
 
               {/* Campo 'beatitude' */}
-              <TextField
+              <InputNumber
                 fullWidth
                 label={
                   editedItem.beatitude < 0
@@ -276,11 +270,10 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                     : language.get("item_blessed")
                 }
                 name="beatitude"
-                type="number"
-                value={editedItem.beatitude.toString()}
+                min={-100}
+                max={100}
+                value={editedItem.beatitude}
                 onChange={handleTextFieldChange}
-                margin="normal"
-                size="small"
               />
 
               {/* Checkbox 'identified' */}

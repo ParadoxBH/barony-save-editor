@@ -1,9 +1,10 @@
 import { Card, Stack, TextField, Typography } from "@mui/material";
+import { InputNumber } from "./InputNumber";
 
 interface InputStatusProps {
   label: string;
   value?: number;
-  name?: string;
+  name: string;
   onChange?: (event: {
     target: {
       name: string;
@@ -13,20 +14,23 @@ interface InputStatusProps {
 }
 
 export function InputStatus({ label, value, name, onChange }: InputStatusProps) {
+
+  function handleOnChange(e: any)
+  {
+    if(onChange)
+      onChange({target: {name: e.target.name, value: parseInt(e.target.value.toString())}});
+  }
   return (
     <Card elevation={1}>
       <Stack m={1} alignItems={"center"}>
         <Typography fontWeight={"bold"}>
           {label.substring(0, 3).toUpperCase()}
         </Typography>
-        <TextField
-          variant="outlined"
-          size="small"
+        <InputNumber
           name={name}
-          type="number"
-          value={value || 0}
+          value={value}
           disabled={value === undefined}
-          onChange={onChange}
+          onChange={handleOnChange}
           sx={{
             width: "50px",
             "& .MuiInputBase-root": {

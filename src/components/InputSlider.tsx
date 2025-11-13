@@ -30,25 +30,45 @@ export function InputSlider({
     setTempValue(value);
   }, [value]);
 
+  function handleOnChange(
+    e: { target: { name: string; value: string } },
+    value: number,
+    activeThumb: number,
+  ) {
+    let numberValue: number = parseInt(e.target.value.toString());
+    if(min != undefined)
+      numberValue = Math.max(numberValue, min);
+    if(max != undefined)
+      numberValue = Math.min(numberValue, max);
+    if (onChange)
+      onChange({ target: { name: e.target.name, value: numberValue } }, numberValue, activeThumb);
+  }
+
   return (
     <Stack flex={1}>
-        <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-            <Typography variant="subtitle2" color={"rgba(0,0,0,0.5)"}>{label}</Typography>
-            <Chip label={!!labelValue ? labelValue(tempValue) : tempValue}/>
-        </Stack>
+      <Stack
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography variant="subtitle2" color={"rgba(0,0,0,0.5)"}>
+          {label}
+        </Typography>
+        <Chip label={!!labelValue ? labelValue(tempValue) : tempValue} />
+      </Stack>
       <Slider
         aria-label="Durabilidade"
         value={tempValue}
         name={name}
         step={1}
-        marks={(max||0)-(min||0) < 10}
+        marks={(max || 0) - (min || 0) < 10}
         min={min}
         max={max}
         valueLabelDisplay="auto"
         //@ts-ignore
-        onChange={onChange}
+        onChange={handleOnChange}
         //@ts-ignore
-        onChangeCommitted={onChange}
+        onChangeCommitted={handleOnChange}
       />
     </Stack>
   );

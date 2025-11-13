@@ -16,7 +16,9 @@ save_info_level: Nivel da masmorra # Quantos andares já foram descidos
 save_info_player_num: Jogadores # Contagem de quantos jogadores estão salvos no lobby do save do jogo
 
 # Abas do programa
+tab_character: Personagem # titulo da aba que permite alterar as estatisticas do personagem
 tab_inventory: Inventario # titulo da aba que abre o inventario do jogador
+tab_inventory_backpack: Mochila # titulo da parte do inventario destinado a mochila
 tab_equipment: Equipamentos # titulo da aba que abre os equipamentos do jogador
 
 # Seletor de jogador
@@ -24,3 +26,70 @@ player_selector_label: Jogador # titulo do field que permite o usuario seleciona
 player_selector_value_empty: Selecione um jogador # Caso não tenha escolhido nenhum jogador, irá aparecer este texto indicando que deve escolher
 player_selector_option_empty: Jogador %s # texto que é exibido caso o slot de jogador esteja vazio
 player_selector_option_null: Nenhum # texto de opção de jogador nenhum
+
+# Menu UI
+ui_confirm: Confirmar # texto generico utilizado para confirmar uma ação
+ui_cancel: Cancelar # texto generico utilizado para cancelar uma ação
+ui_delet: Deletar # texto generico utilizado para deletar algo
+filterby_name: Filtrar por nome # label do campo aonde adicionado o filtro por nome
+filterby_type: Filtrar por Tipo # label do campo aonde adicionado o filtro por tipotraduzir:
+filter_result_empty: Nenhum item encontrado com os filtros aplicados # mensagem exibida quando o usuario tenta buscar um item usando um filtro e não encontra nada como resultado
+
+# Edição de item 
+item_label: Item # texto dizendo que oque esta sendo indicado é o item
+item_select: Click para selecionar o item # caso não tenha nenhum item selecionado, irá aparecer este texto
+
+# Modificadores do item
+item_appearance: Aparencia # texto que diz qual é a variação de aparencia do item
+item_blessed: Sagrado # texto que indica que o item é sagrado
+item_cursed: Amaldiçoado # texto que indica que o item esta com maldição
+item_count: Quantidade # texto do campo que altera a quantidade de item
+item_identified: Identificado? # texto que indica se o item ja foi especionado pelo jogador
+item_price: Valor # indicativo de preço de venda do item
+item_weight: Peso # indicativo de peso da unidade de item
+item_dungeon_level: Encontra em # andar da masmorra que o item é encontrado
+item_status: Modificadores # Texto que indica quais modificadores o item tem
+
+# Slot equipavel do item
+item_equip_slot: Equipamento # indica qual slot de equipamento o item pertece
+
+# Status do Item
+item_durability_label: Durabilidade # indicador de condição do item, durabilidade ou qualidade
+item_durability_0: Quebrado # indica que o item esta totalmente destruido mas ainda funcional
+item_durability_1: Decrépito # indica que o item esta totalmente parcialmente estrago
+item_durability_2: Desgastado # indica que o item ja foi utilizado bastante e ainda tem uma boa aparencia
+item_durability_3: Funcional # indica que o item esta com uma boa aparencia ou quase novo
+item_durability_4: Excelente # indica que o item esta novo e nunca foi utilizado
+
+# Tipos de Item
+item_type_label: Tipo # texto indicativo que ali ficara a informação do tipo do item
+item_type_all: Todos os tipos # texto que indica que será listado todos os itens
+item_type_armor: Armadura
+item_type_weapon: Arma
+item_type_amulet: Amuleto
+item_type_potion: Poção
+item_type_scroll: Pergaminho
+item_type_magicstaff: Cajado Magico
+item_type_ring: Anel
+item_type_spellbook: Livro de Feitiço
+item_type_gem: Gema
+item_type_tool: Ferramenta
+item_type_food: Comida
+item_type_book: Livro
+item_type_spell_cat: Feitiço
+item_type_thrown: Arremessável
+
+
+# Player Status
+player_stats_str: Força # texto que indica a força
+player_stats_dex: Destreza # texto que indica a destreza
+player_stats_con: Constituição # texto que indica quanto de constituição tem o jogador
+player_stats_int: Inteligencia # texto que indica quanto de inteligencia tem o jogador
+player_stats_per: Percepção # texto que indica a percepção do jogador
+player_stats_chr: Carisma # texto que indica quanto de carisma tem o jogador
+player_stats_hp: Vida # texto que indica que o campo a preencher é a vida
+player_stats_mp: Mana # texto que indica que o campo a preencher é a magia
+player_stats_xp: XP # texto que indica xp do jogador
+player_stats_hunger: Fome # texto que indica quantos de fome o personagem tem
+player_stats_lvl: Nivel # texto que indica qual é o nivel do jogador
+player_stats_gold: Moedas # texto que indica quanto de dinheiro o jogador carrega

@@ -78,3 +78,18 @@ item_type_food: Comida
 item_type_book: Livro
 item_type_spell_cat: Feitiço
 item_type_thrown: Arremessável
+
+
+# Player Status
+player_stats_str: Força # texto que indica a força
+player_stats_dex: Destreza # texto que indica a destreza
+player_stats_con: Constituição # texto que indica quanto de constituição tem o jogador
+player_stats_int: Inteligencia # texto que indica quanto de inteligencia tem o jogador
+player_stats_per: Percepção # texto que indica a percepção do jogador
+player_stats_chr: Carisma # texto que indica quanto de carisma tem o jogador
+player_stats_hp: Vida # texto que indica que o campo a preencher é a vida
+player_stats_mp: Mana # texto que indica que o campo a preencher é a magia
+player_stats_xp: XP # texto que indica xp do jogador
+player_stats_hunger: Fome # texto que indica quantos de fome o personagem tem
+player_stats_lvl: Nivel # texto que indica qual é o nivel do jogador
+player_stats_gold: Moedas # texto que indica quanto de dinheiro o jogador carrega

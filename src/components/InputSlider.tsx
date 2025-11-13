@@ -31,7 +31,7 @@ export function InputSlider({
   }, [value]);
 
   return (
-    <Stack>
+    <Stack flex={1}>
         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Typography variant="subtitle2" color={"rgba(0,0,0,0.5)"}>{label}</Typography>
             <Chip label={!!labelValue ? labelValue(tempValue) : tempValue}/>
@@ -41,7 +41,7 @@ export function InputSlider({
         value={tempValue}
         name={name}
         step={1}
-        marks
+        marks={(max||0)-(min||0) < 10}
         min={min}
         max={max}
         valueLabelDisplay="auto"

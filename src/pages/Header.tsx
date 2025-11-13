@@ -22,6 +22,7 @@ import {
   TAB_INVENTORY,
   setTab,
   TAB_EQUIPAMENT,
+  TAB_CHARACTER,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -147,6 +148,7 @@ export function Header() {
               onChange={(e, value) => dispatch(setTab(value))}
               aria-label="basic tabs example"
             >
+              <Tab label={language.get("tab_character")} value={TAB_CHARACTER} />
               <Tab label={language.get("tab_inventory")} value={TAB_INVENTORY} />
               <Tab label={language.get("tab_equipment")} value={TAB_EQUIPAMENT} />
             </Tabs>

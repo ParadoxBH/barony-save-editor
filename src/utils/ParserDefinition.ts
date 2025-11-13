@@ -13,9 +13,9 @@ import type {
   PlayerUnlockable,
 } from "./EditorDefinition";
 import { guid } from "./utils";
-import { type ItemData, type ItemDataMap } from "../StoreContext";
+import { type ItemDataMap } from "../StoreContext";
 import { genItemNull } from "../pages/ItemEditor";
-import { ITEMID_BACKPACK, ITEMID_SPELL } from "../pages/Inventory";
+import { ITEMID_SPELL } from "../pages/Inventory";
 
 function parseItem(itens: ItemDataMap, i: SavePlayerStatsInventory): Item {
   return {
@@ -58,6 +58,24 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
           }
           return result;
         }, {} as PlayerUnlockable),
+
+        //Status
+        stats: {
+          HP: p.stats.HP,
+          maxHP: p.stats.maxHP,
+          MP: p.stats.MP,
+          maxMP: p.stats.maxMP,
+          STR: p.stats.STR,
+          DEX: p.stats.DEX,
+          CON: p.stats.CON,
+          INT: p.stats.INT,
+          PER: p.stats.PER,
+          CHR: p.stats.CHR,
+          EXP: p.stats.EXP,
+          LVL: p.stats.LVL,
+          GOLD: p.stats.GOLD,
+          HUNGER: p.stats.HUNGER,
+        },
 
         //Equipament
         equipment: p.stats.player_equipment.reduce((result, e) => {
@@ -119,6 +137,7 @@ export function parseToSave(editor: EditorData): GameData {
       spells: spells.map(s => inventoryId[s]),
       stats: {
         ...player.stats,
+        ...editorPlayer.stats,
         inventory: inventory.map(i => ({
           type: i.type,
           status: i.status,

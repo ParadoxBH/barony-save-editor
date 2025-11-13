@@ -94,11 +94,13 @@ export const Character: React.FC<CharacterProps> = ({ player }) => {
             <InputStatus
               label={language.get("player_stats_per")}
               value={player?.stats.PER}
+              name="PER"
               onChange={handleUpdateStats}
             />
             <InputStatus
               label={language.get("player_stats_chr")}
               value={player?.stats.CHR}
+              name="CHR"
               onChange={handleUpdateStats}
             />
           </Stack>

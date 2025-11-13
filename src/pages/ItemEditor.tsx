@@ -15,6 +15,7 @@ import { useAppSelector } from "../StoreContext";
 import { StyledDialog } from "../components/StyledDialog";
 import { InputSlider } from "../components/InputSlider";
 import { guid } from "../utils/utils";
+import { useLanguage } from "../components/language";
 
 // 2. Definição da Interface das Props do Componente
 interface InventoryItemEditorProps {
@@ -51,6 +52,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
   // O estado é tipado como 'InventoryItem'
   const [editedItem, setEditedItem] = useState<Item | undefined>(item);
   const [showEditItem, setShowEditItem] = useState<boolean>(false);
+  const language = useLanguage();
   const { itens } = useAppSelector((s) => s.common);
   // Se a prop 'item' mudar, atualize o estado local (importante para quando o item de edição muda)
   useEffect(() => {
@@ -109,7 +111,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
     <StyledDialog
       onClose={onClose}
       open={!!item}
-      title={"Editando Item"}
+      title={language.get("item_label")}
       actions={
         <>
           {onDelete && (
@@ -119,7 +121,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               color="error"
               onClick={onDelete}
             >
-              Deletar
+              {language.get("ui_delet")}
             </Button>
           )}
           {onClose && (
@@ -129,7 +131,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               color="inherit"
               onClick={onClose}
             >
-              Cancelar
+              {language.get("ui_cancel")}
             </Button>
           )}
           <Button
@@ -139,7 +141,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
             onClick={editedItem ? () => onChange(editedItem) : undefined}
             disabled={!editedItem || editedItem.type < 0}
           >
-            Confirmar
+            {language.get("ui_confirm")}
           </Button>
         </>
       }
@@ -153,7 +155,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                   variant="outlined"
                   onClick={() => setShowEditItem(true)}
                 >
-                  <Typography>Click para selecionar o item</Typography>
+                  <Typography>{language.get("item_select")}</Typography>
                 </Button>
               )}
               {currentItemData && (
@@ -166,7 +168,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                   >
                     <Stack flex={1} alignItems={"start"}>
                       <Typography variant="subtitle2" color="rgba(0,0,0,0.5)">
-                        Item
+                        {language.get("item_label")}
                       </Typography>
                       <ItemSlot
                         item={editedItem || null}
@@ -190,18 +192,18 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               />
 
               <InputSlider
-                label="Durabilidade"
+                label={language.get("item_durability_label")}
                 name={"status"}
                 min={0}
                 max={4}
                 value={editedItem.status}
                 onChange={handleTextFieldChange}
                 labelValue={(value: number) => {
-                  if (value === 0) return "Quebrado";
-                  if (value === 1) return "Decrépito";
-                  if (value === 2) return "Desgastado";
-                  if (value === 3) return "Funcional";
-                  if (value === 4) return "Excelente";
+                  if (value === 0) return language.get("item_durability_0");
+                  if (value === 1) return language.get("item_durability_1");
+                  if (value === 2) return language.get("item_durability_2");
+                  if (value === 3) return language.get("item_durability_3");
+                  if (value === 4) return language.get("item_durability_4");
                   return value;
                 }}
               />
@@ -209,7 +211,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               {/* Campo 'appearance' */}
               <TextField
                 fullWidth
-                label="Aparência"
+                label={language.get("item_appearance")}
                 name="appearance"
                 type="number"
                 value={editedItem.appearance.toString()}
@@ -221,7 +223,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               {/* Campo 'count' */}
               <TextField
                 fullWidth
-                label="Quantidade"
+                label={language.get("item_count")}
                 name="count"
                 type="number"
                 value={editedItem.count.toString()}
@@ -234,7 +236,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
               {/* Campo 'beatitude' */}
               <TextField
                 fullWidth
-                label={editedItem.beatitude < 0 ? "Amaldiçoado" : "Sagrado"}
+                label={editedItem.beatitude < 0 ? language.get("item_cursed") : language.get("item_blessed")}
                 name="beatitude"
                 type="number"
                 value={editedItem.beatitude.toString()}
@@ -253,7 +255,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                     color="primary"
                   />
                 }
-                label="Identificado?"
+                label={language.get("item_identified")}
               />
             </Stack>
           )}

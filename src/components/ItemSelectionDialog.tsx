@@ -24,6 +24,7 @@ import type { ItemDataMap } from "../pages/Inventory";
 import { useAppDispatch, useAppSelector } from "../StoreContext";
 import { TablePaginator, usePaginator } from "./TPaginator";
 import { StyledDialog } from "./StyledDialog";
+import { useLanguage } from "./language";
 
 // --- Interfaces de Tipagem (Mantidas do original) ---
 
@@ -87,6 +88,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
   const [filterCategory, setFilterCategory] = useState("ALL"); // 'ALL' representa nenhuma filtragem
   const { itens } = useAppSelector((s) => s.common);
   const pages = usePaginator();
+  const language = useLanguage();
   // 2. Processa os dados brutos APENAS UMA VEZ
   const allItems: SelectedItem[] = useMemo(() => {
     // A função getItemsMapped() é chamada aqui
@@ -128,7 +130,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
       onClose={onClose}
       maxWidth="xl"
       fullWidth
-      title={"Selecione um Item"}
+      title={language.get("item_select")}
       preContainer={
         <>
           {/* Container de Filtros */}
@@ -154,11 +156,11 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
                 labelId="category-filter-label"
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                label="Tipo"
+                label={language.get("item_type_label")}
               >
                 {uniqueCategories.map((category) => (
                   <MenuItem key={category} value={category}>
-                    {category === "ALL" ? "Todos os Tipos" : category}
+                    {category === "ALL" ? language.get("item_type_all") : language.get(`item_type_${category}`)}
                   </MenuItem>
                 ))}
               </Select>
@@ -206,7 +208,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
       </Grid>
       {filteredItems.length === 0 && (
         <Typography color="textSecondary" align="center" sx={{ p: 4 }}>
-          Nenhum item encontrado com os filtros aplicados.
+          {language.get("filter_result_empty")}
         </Typography>
       )}
     </StyledDialog>

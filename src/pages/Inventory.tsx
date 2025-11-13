@@ -10,6 +10,7 @@ import {
 } from "../StoreContext";
 import { genItemNull, ItemEditor } from "./ItemEditor";
 import type { Player } from "../utils/EditorDefinition";
+import { useLanguage } from "../components/language";
 
 export const ITEMID_BACKPACK = 220;
 export const ITEMID_SPELL = 162;
@@ -41,6 +42,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const stats = getCharacter();
   const inventory = stats?.inventory;
   const dispatch = useAppDispatch();
+  const language = useLanguage();
 
   const ROWS = includeEquipamentBag(stats) ? 8 : 6;
   const COLS = 5;
@@ -107,7 +109,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
             <>
               {(rowIndex === 6 || rowIndex === 0) && (
                 <Typography variant="h6" gutterBottom>
-                  {rowIndex === 6 ? "Mochila" : "Inventário"}
+                  {rowIndex === 6 ? language.get("tab_inventory_backpack") : language.get("tab_inventory")}
                 </Typography>
               )}
               <Stack spacing={1} direction={"row"}>

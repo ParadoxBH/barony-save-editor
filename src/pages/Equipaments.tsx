@@ -4,12 +4,14 @@ import { getCharacter, setPlayerEquipament, useAppDispatch } from "../StoreConte
 import type { EquipmentSlotFirst, Item } from "../utils/EditorDefinition";
 import { useState } from "react";
 import { genItemNull, ItemEditor } from "./ItemEditor";
+import { useLanguage } from "../components/language";
 
 export function Equipaments() {
   const character = getCharacter();
   const [slotEdit, setSlotEdit] = useState<string | undefined>(undefined);
   const [itemEdit, setItemEdit] = useState<Item | undefined>(undefined);
   const dispatch = useAppDispatch();
+  const language = useLanguage();
 
   const slotsL: EquipmentSlotFirst[] = [
     "mask",//
@@ -66,7 +68,7 @@ export function Equipaments() {
     <Paper elevation={3}>
       <Stack p={3} alignItems={"center"} spacing={2}>
         <Typography variant="h6" gutterBottom>
-          Equipamento
+          {language.get("tab_equipment")}
         </Typography>
         <Stack
           spacing={1}

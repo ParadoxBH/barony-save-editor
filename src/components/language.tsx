@@ -55,6 +55,7 @@ export function useLanguage() {
   const dispatch = useAppDispatch();
 
   function get(field: string) {
+    field = field.toLowerCase();
     if (field in language) return language[field];
     return field;
   }

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Chip } from "./Chip";
 import { useAppSelector } from "../StoreContext";
 import { theme } from "../theme";
+import { useLanguage } from "./language";
 
 interface ItemSlotProps {
   item: Item | null;
@@ -46,6 +47,7 @@ export function ItemSlot({
   const [index, setIndex] = useState(item?.appearance || 0);
   const { itens } = useAppSelector((s) => s.common);
   const currentItem = item && item.type in itens ? itens[item.type] : undefined;
+  const language = useLanguage();
 
   // Troca automática a cada 3 segundos
   useEffect(() => {
@@ -111,28 +113,28 @@ export function ItemSlot({
                     value={currentItem.item_id}
                   />
                   {!!currentItem.item_category && <TooltipInfo
-                    label={"Categoria"}
-                    value={currentItem.item_category}
+                    label={language.get("item_type_label")}
+                    value={language.get(`item_type_${currentItem.item_category}`)}
                   />}
                   {!!currentItem.equip_slot && <TooltipInfo
-                    label={"Slot"}
-                    value={currentItem.equip_slot}
+                    label={language.get("item_equip_slot")}
+                    value={language.get(`item_equip_slot_${currentItem.equip_slot}`)}
                   />}
                   {!!currentItem.item_level && <TooltipInfo
-                    label={"Andar Minimo"}
+                    label={language.get("item_dungeon_level")}
                     value={currentItem.item_level}
                   />}
                   {!!currentItem.gold_value && <TooltipInfo
-                    label={"Valor"}
+                    label={language.get("item_price")}
                     value={currentItem.gold_value}
                   />}
                   <TooltipInfo
-                    label={"Peso"}
+                    label={language.get("item_dungeon_weight")}
                     value={currentItem.weight_value || 0}
                   />
                   <Divider color={"white"}/>
                   <TooltipInfo
-                    label={"Status"}
+                    label={language.get("item_status")}
                     sx={{
                       label: {
                         color: theme.palette.primary.light,
@@ -206,30 +208,23 @@ export function ItemSlot({
             )}
             {(!showInfData || showInfData.category) && (
               <Chip
-                tooltip={"Categoria"}
+                tooltip={language.get("item_type_label")}
                 icon={"damage"}
-                label={currentItem.item_category}
+                label={language.get(`item_type_${currentItem.item_category}`)}
               />
             )}
             {(!showInfData || showInfData.gold) && (
               <Chip
-                tooltip={"Valor"}
+                tooltip={language.get("item_price")}
                 icon={"money"}
                 label={currentItem.gold_value}
               />
             )}
             {(!showInfData || showInfData.weight) && (
               <Chip
-                tooltip={"Peso"}
+                tooltip={language.get("item_weight")}
                 icon={"weight"}
                 label={currentItem.weight_value}
-              />
-            )}
-            {currentItem && false && (
-              <Chip
-                tooltip={"Andar Minimo"}
-                icon={"Inventory_Drop"}
-                label={currentItem?.item_level}
               />
             )}
           </Stack>

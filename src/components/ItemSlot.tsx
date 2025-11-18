@@ -125,7 +125,7 @@ export function ItemSlot({
                       )}
                     />
                   )}
-                  {!!currentItem.item_level && (
+                  {!!currentItem.item_level && currentItem.item_level > 0 && (
                     <TooltipInfo
                       label={language.get("item_dungeon_level")}
                       value={currentItem.item_level}
@@ -138,7 +138,7 @@ export function ItemSlot({
                     />
                   )}
                   <TooltipInfo
-                    label={language.get("item_dungeon_weight")}
+                    label={language.get("item_weight")}
                     value={currentItem.weight_value || 0}
                   />
                   <Divider color={"white"} />

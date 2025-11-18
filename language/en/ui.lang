@@ -17,6 +17,7 @@ save_info_player_num: Players # Count of how many players are saved in the game'
 
 # Program tabs
 tab_character: Character # title of the tab that allows changing the character's stats
+tab_proficiencies: Proficiencies # Tab title displaying the character's skill level
 tab_inventory: Inventory # Title of the tab that opens the player's inventory
 tab_inventory_backpack: Backpack # title of the inventory section dedicated to the backpack
 tab_equipment: Equipment # Title of the tab that opens the player's equipment
@@ -104,3 +105,21 @@ player_stats_xp: XP # text indicating the player's experience points
 player_stats_hunger: Hunger # text indicating how hungry the character is
 player_stats_lvl: Level # text indicating the player's level
 player_stats_gold: Gold # text indicating how much money the player is carrying
+
+# Player Proficiencies
+player_proficiencies_tinkering: Tinkering
+player_proficiencies_stealth: Stealth
+player_proficiencies_trading: Trading
+player_proficiencies_appraisal: Appraisal
+player_proficiencies_swimming: Swimming
+player_proficiencies_leadership: Leadership
+player_proficiencies_casting: Casting
+player_proficiencies_magic: Magic
+player_proficiencies_ranged: Ranged
+player_proficiencies_swords: Swords
+player_proficiencies_maces: Maces
+player_proficiencies_axes: Axes
+player_proficiencies_polearms: Polearms
+player_proficiencies_blocking: Blocking
+player_proficiencies_unarmed: Unarmed
+player_proficiencies_alchemy: Alchemy

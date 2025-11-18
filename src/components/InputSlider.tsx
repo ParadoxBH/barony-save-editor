@@ -42,6 +42,7 @@ export function InputSlider({
       numberValue = Math.min(numberValue, max);
     if (onChange)
       onChange({ target: { name: e.target.name, value: numberValue } }, numberValue, activeThumb);
+    setTempValue(numberValue);
   }
 
   return (
@@ -54,7 +55,7 @@ export function InputSlider({
         <Typography variant="subtitle2" color={"rgba(0,0,0,0.5)"}>
           {label}
         </Typography>
-        <Chip label={!!labelValue ? labelValue(tempValue) : tempValue} />
+        <Chip label={!!labelValue ? labelValue(tempValue) : tempValue || "0"} />
       </Stack>
       <Slider
         aria-label="Durabilidade"

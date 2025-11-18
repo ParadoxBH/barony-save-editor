@@ -20,6 +20,7 @@ tab_character: Character # title of the tab that allows changing the character's
 tab_inventory: Inventory # Title of the tab that opens the player's inventory
 tab_inventory_backpack: Backpack # title of the inventory section dedicated to the backpack
 tab_equipment: Equipment # Title of the tab that opens the player's equipment
+tab_spells: Spell # Title of the tab that opens the list of spells known by the player
 
 # Player selector
 player_selector_label: Player # Title of the field that allows the user to select which player they will edit

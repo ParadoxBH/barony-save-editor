@@ -11,7 +11,6 @@ import {
   InputLabel,
   Button,
   Tabs,
-  Tab,
 } from "@mui/material";
 import type { GameData } from "../utils/SaveDefinition";
 import {
@@ -28,6 +27,7 @@ import {
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
+import { Tab } from "./HeaderTab";
 
 export function Header() {
   const { tab, saveData, saveName, playerSelected, itens, loading } =
@@ -150,11 +150,11 @@ export function Header() {
               onChange={(e, value) => dispatch(setTab(value))}
               aria-label="basic tabs example"
             >
-              <Tab label={language.get("tab_character")} value={TAB_CHARACTER} />
-              <Tab label={language.get("tab_proficiencies")} value={TAB_PROFICIENCIES} />
-              <Tab label={language.get("tab_inventory")} value={TAB_INVENTORY} />
-              <Tab label={language.get("tab_equipment")} value={TAB_EQUIPAMENT} />
-              <Tab label={language.get("tab_spells")} value={TAB_SPELLS} />
+              <Tab id={"character"} value={TAB_CHARACTER} />
+              <Tab id={"proficiencies"} value={TAB_PROFICIENCIES} />
+              <Tab id={"inventory"} value={TAB_INVENTORY} />
+              <Tab id={"equipment"} value={TAB_EQUIPAMENT} />
+              <Tab id={"spells"} value={TAB_SPELLS} />
             </Tabs>
           </Stack>
           <Stack direction="row" spacing={2} alignItems={"center"}>

@@ -30,6 +30,16 @@ export const theme = createTheme({
             backgroundColor: "rgba(0, 0, 0, 0.04)", // Efeito hover sutil
           },
         },
+        contained: {
+          "&:hover": {
+            color: "white",
+          },
+        },
+        outlined: {
+          "&:hover": {
+            color: "white",
+          },
+        }
       },
     },
     MuiTab: {

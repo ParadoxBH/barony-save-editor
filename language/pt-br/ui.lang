@@ -53,6 +53,17 @@ item_status: Modificadores # Texto que indica quais modificadores o item tem
 
 # Slot equipavel do item
 item_equip_slot: Equipamento # indica qual slot de equipamento o item pertece
+item_equip_slot_mainhand: Mão principal
+item_equip_slot_offhand: Mão secundária
+item_equip_slot_torso: Armadura
+item_equip_slot_helm: Capacete
+item_equip_slot_gloves: Luvas
+item_equip_slot_boots: Botas
+item_equip_slot_cloak: Capas
+item_equip_slot_amulet: Amuleto
+item_equip_slot_ring: Anel
+item_equip_slot_mask: Máscara
+item_equip_slot_spell: Feitiço
 
 # Status do Item
 item_durability_label: Durabilidade # indicador de condição do item, durabilidade ou qualidade

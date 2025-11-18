@@ -53,6 +53,17 @@ item_status: Status # text indication that item status
 
 # Item Slot Equipation
 item_equip_slot: Equipment # indicates which equipment slot the item belongs to
+item_equip_slot_mainhand: Main hand
+item_equip_slot_offhand: Off-hand
+item_equip_slot_torso: Armor
+item_equip_slot_helm: Helmet
+item_equip_slot_gloves: Gloves
+item_equip_slot_boots: Boots
+item_equip_slot_cloak: Cloak
+item_equip_slot_amulet: Amulet
+item_equip_slot_ring: Ring
+item_equip_slot_mask: Mask
+item_equip_slot_spell: Spell
 
 # Item Status
 item_durability_label: Durability # indicator of the item's condition, durability or quality

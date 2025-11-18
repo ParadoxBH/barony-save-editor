@@ -20,6 +20,7 @@ function Item({ speelId, image }: ItemProps) {
     speelId in (character?.spells || {})
       ? character?.spells[speelId] || { type: speelId, unlocked: false }
       : { type: speelId, unlocked: false };
+  const language = useLanguage();
   const size = 32;
   return (
     <Grid size={4} key={`speel_${speelId}`}>
@@ -34,7 +35,7 @@ function Item({ speelId, image }: ItemProps) {
           <Box sx={{ width: size, height: size }}>
             <ItemIcon image={image} />
           </Box>
-          <Typography>{`spell_${speelId}`}</Typography>
+          <Typography>{language.getSpell(speelId).name}</Typography>
         </Stack>
       </Button>
     </Grid>
@@ -47,7 +48,7 @@ export function Spells() {
 
   return (
     <Box maxHeight={"100%"} display={"flex"}>
-      <Paper elevation={3} sx={{display: "flex"}}>
+      <Paper elevation={3} sx={{ display: "flex" }}>
         <Stack p={3} alignItems={"center"} spacing={2}>
           <Typography variant="h6" gutterBottom>
             {language.get("tab_spells")}

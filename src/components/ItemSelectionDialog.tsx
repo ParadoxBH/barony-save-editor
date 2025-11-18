@@ -104,13 +104,16 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
   // 4. Lógica de Filtragem (usando useMemo para performance)
   const filteredItems = useMemo(() => {
     var filter = allItems.filter((item) => {
+      const languageName = language.getItem(item.name, true);
+      if(languageName.toLowerCase().includes(filterText.toLowerCase()))
+        return true;
       const matchesName = item.name
         .toLowerCase()
         .includes(filterText.toLowerCase());
 
       const matchesCategory =
         filterCategory === "ALL" || item.item_category === filterCategory;
-
+      
       return matchesName && matchesCategory;
     });
     pages.setCount(filter.length);
@@ -136,7 +139,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
           {/* Container de Filtros */}
           <Box sx={{ p: 2, display: "flex", gap: 2, alignItems: "center" }}>
             <ItemSlot
-              item={value != undefined ? { type: value } : undefined}
+              item={value != undefined ? { type: value, identified: true } : undefined}
               showInf
             />
             {/* Filtro por Nome */}
@@ -197,7 +200,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
               }}
             >
               <ItemSlot
-                item={{ type: item.item_id }}
+                item={{ type: item.item_id, identified: true }}
                 showInf
                 showInfData={{ id: true, gold: true, weight: true }}
                 selected={item.item_id === value}

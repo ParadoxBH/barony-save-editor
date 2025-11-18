@@ -100,7 +100,7 @@ export function ItemSlot({
               currentItem ? (
                 <Stack minWidth={150}>
                   <TooltipInfo
-                    label={currentItem.name}
+                    label={language.getItem(currentItem?.name, item?.identified)}
                     sx={{
                       label: {
                         color: theme.palette.primary.light,
@@ -162,15 +162,17 @@ export function ItemSlot({
               ) : undefined
             }
           >
-            <ItemIcon
-              image={
-                currentItem && currentItem.item_images
-                  ? currentItem.item_images[
-                      index % currentItem.item_images.length
-                    ]
-                  : undefined
-              }
-            />
+            <Box>
+              <ItemIcon
+                image={
+                  currentItem && currentItem.item_images
+                    ? currentItem.item_images[
+                        index % currentItem.item_images.length
+                      ]
+                    : undefined
+                }
+              />
+            </Box>
           </Tooltip>
         )}
         {item && item.count > 1 && (
@@ -221,7 +223,9 @@ export function ItemSlot({
               />
             )}
           </Stack>
-          <Typography>{currentItem?.name || "Missingno"}</Typography>
+          <Typography>
+            {language.getItem(currentItem?.name, item?.identified)}
+          </Typography>
         </Stack>
       )}
     </Stack>

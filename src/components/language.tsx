@@ -12,41 +12,64 @@ import {
 import { Icon } from "./Icon";
 
 export interface LangData {
-  [key: string]: string;
+  ui: LangDataUi;
+  item: {
+    [key: string]: LangDataItem;
+  };
+  spell: LangDataSpell[];
 }
+
+type LangDataUi = {
+  [key: string]: string;
+};
+type LangDataItem = {
+  name_identified: string;
+  name_unidentified?: string;
+};
+type LangDataSpell = { name: string };
 
 export type LangOptions = "en" | "pt-br";
 
 export async function loadLangFile(fileName: LangOptions): Promise<LangData> {
-  const langData: LangData = {};
+  const langData: LangData = { ui: {}, item: {}, spell: [] };
   const files = ["ui"];
 
   for (const file of files) {
-    const response = await fetch(`./language/${fileName}/${file}.lang`);
-    const text = await response.text();
+    try {
+      const response = await fetch(`./language/${fileName}/${file}.lang`);
+      const text = await response.text();
 
-    const lines = text.split("\n");
+      const lines = text.split("\n");
 
-    lines.forEach((line) => {
-      // Remove comentários do final da linha
-      const commentIndex = line.indexOf("#");
-      const cleanLine =
-        commentIndex >= 0 ? line.substring(0, commentIndex) : line;
+      lines.forEach((line) => {
+        // Remove comentários do final da linha
+        const commentIndex = line.indexOf("#");
+        const cleanLine =
+          commentIndex >= 0 ? line.substring(0, commentIndex) : line;
 
-      const trimmed = cleanLine.trim();
+        const trimmed = cleanLine.trim();
 
-      // Ignora linhas vazias
-      if (!trimmed) return;
+        // Ignora linhas vazias
+        if (!trimmed) return;
 
-      const colonIndex = trimmed.indexOf(":");
-      if (colonIndex > 0) {
-        const key = trimmed.substring(0, colonIndex).trim();
-        const value = trimmed.substring(colonIndex + 1).trim();
-        langData[key] = value;
-      }
-    });
+        const colonIndex = trimmed.indexOf(":");
+        if (colonIndex > 0) {
+          const key = trimmed.substring(0, colonIndex).trim();
+          const value = trimmed.substring(colonIndex + 1).trim();
+          langData.ui[key] = value;
+        }
+      });
+    } catch {}
   }
 
+  //Pacote de linguagem de item
+  try {
+    const response = await fetch(`./language/${fileName}/item_names.json`);
+    const text = await response.text();
+    const data = JSON.parse(text);
+    langData.item = data.items;
+    langData.spell = Object.values(data.spell_names);
+  } catch {}
   return langData;
 }
 
@@ -56,8 +79,28 @@ export function useLanguage() {
 
   function get(field: string) {
     field = field.toLowerCase();
-    if (field in language) return language[field];
+    if (field in language.ui) return language.ui[field];
     return field;
+  }
+
+  function getItem(field?: string, identified?: boolean) {
+    field = (field || "Missingno").toLowerCase();
+    let result: LangDataItem;
+    if (field in language.item) result = language.item[field];
+    else
+      result = {
+        name_identified: field,
+        name_unidentified: undefined,
+      };
+    return identified
+      ? result.name_identified
+      : result.name_unidentified || result.name_identified;
+  }
+
+  function getSpell(id: number) {
+    id = id - 1;
+    if (id >= 0 && id < language.spell.length) return language.spell[id];
+    else return { name: `speel_${id + 1}` };
   }
 
   async function init() {
@@ -69,7 +112,7 @@ export function useLanguage() {
     dispatch(setLanguage({ language, selected: language_selected }));
   }
 
-  return { get, init, load };
+  return { get, getItem, getSpell, init, load };
 }
 
 export function LanguageSelector() {

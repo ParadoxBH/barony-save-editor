@@ -72,9 +72,7 @@ export const InventoryGrid: React.FC<InventoryGridProps> = ({}) => {
   const grid = createGrid();
 
   const handleSlotClick = (props: slotEditing): void => {
-    props.item.x = props.x;
-    props.item.y = props.y;
-    setEditSlot(props);
+    setEditSlot({...props, item: {...props.item, x: props.x, y: props.y}});
   };
 
   const getTooltipTitle = (item: Item | null): string => {

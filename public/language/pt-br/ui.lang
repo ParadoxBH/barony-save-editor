@@ -17,6 +17,7 @@ save_info_player_num: Jogadores # Contagem de quantos jogadores estão salvos no
 
 # Abas do programa
 tab_character: Personagem # titulo da aba que permite alterar as estatisticas do personagem
+tab_proficiencies: Habilidades # Título da aba com a listagem de nivel de habilidade do personagem
 tab_inventory: Inventario # titulo da aba que abre o inventario do jogador
 tab_inventory_backpack: Mochila # titulo da parte do inventario destinado a mochila
 tab_equipment: Equipamentos # titulo da aba que abre os equipamentos do jogador
@@ -91,7 +92,6 @@ item_type_book: Livro
 item_type_spell_cat: Feitiço
 item_type_thrown: Arremessável
 
-
 # Player Status
 player_stats_str: Força # texto que indica a força
 player_stats_dex: Destreza # texto que indica a destreza
@@ -105,3 +105,21 @@ player_stats_xp: XP # texto que indica xp do jogador
 player_stats_hunger: Fome # texto que indica quantos de fome o personagem tem
 player_stats_lvl: Nivel # texto que indica qual é o nivel do jogador
 player_stats_gold: Moedas # texto que indica quanto de dinheiro o jogador carrega
+
+# Player Proficiencies
+player_proficiencies_tinkering: Engenharia
+player_proficiencies_stealth: Furtividade
+player_proficiencies_trading: Comércio
+player_proficiencies_appraisal: Avaliação
+player_proficiencies_swimming: Natação
+player_proficiencies_leadership: Liderança
+player_proficiencies_casting: Conjuração
+player_proficiencies_magic: Magia
+player_proficiencies_ranged: Pontaria
+player_proficiencies_swords: Espadas
+player_proficiencies_maces: Maças
+player_proficiencies_axes: Machados
+player_proficiencies_polearms: Arm. de Haste
+player_proficiencies_blocking: Bloqueio
+player_proficiencies_unarmed: Desarmado
+player_proficiencies_alchemy: Alquimia

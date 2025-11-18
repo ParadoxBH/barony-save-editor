@@ -67,6 +67,7 @@ interface Player {
   name: string;
 
   stats: PlayerStats;
+  proficiencies: number[];
 
   spells: PlayerUnlockable;
   //recipes: PlayerUnlockable;

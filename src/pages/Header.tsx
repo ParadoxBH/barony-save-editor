@@ -24,6 +24,7 @@ import {
   TAB_EQUIPAMENT,
   TAB_CHARACTER,
   TAB_SPELLS,
+  TAB_PROFICIENCIES,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -150,6 +151,7 @@ export function Header() {
               aria-label="basic tabs example"
             >
               <Tab label={language.get("tab_character")} value={TAB_CHARACTER} />
+              <Tab label={language.get("tab_proficiencies")} value={TAB_PROFICIENCIES} />
               <Tab label={language.get("tab_inventory")} value={TAB_INVENTORY} />
               <Tab label={language.get("tab_equipment")} value={TAB_EQUIPAMENT} />
               <Tab label={language.get("tab_spells")} value={TAB_SPELLS} />

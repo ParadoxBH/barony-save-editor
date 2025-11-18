@@ -77,6 +77,9 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
           HUNGER: p.stats.HUNGER,
         },
 
+        //Proficiencies
+        proficiencies: p.stats.PROFICIENCIES,
+
         //Equipament
         equipment: p.stats.player_equipment.reduce((result, e) => {
           const { item, slot } = getBag(inventory, e.second);
@@ -138,6 +141,7 @@ export function parseToSave(editor: EditorData): GameData {
       stats: {
         ...player.stats,
         ...editorPlayer.stats,
+        PROFICIENCIES: editorPlayer.proficiencies,
         inventory: inventory.map(i => ({
           type: i.type,
           status: i.status,

@@ -11,9 +11,10 @@ import type { LangData, LangOptions } from "./components/language";
 export type ItemDataMap = { [key: string]: ItemData };
 
 export const TAB_CHARACTER = 0;
-export const TAB_INVENTORY = 1;
-export const TAB_EQUIPAMENT = 2;
-export const TAB_SPELLS = 3;
+export const TAB_PROFICIENCIES = 1;
+export const TAB_INVENTORY = 2;
+export const TAB_EQUIPAMENT = 3;
+export const TAB_SPELLS = 4;
 
 export interface ItemData {
   name?: string;
@@ -55,10 +56,10 @@ const initialApplicationState: ApplicationState = {
   loading: {
     language: false,
   },
-  tab: TAB_INVENTORY,
+  tab: 0,
   itens: getItemsMapped(items as ItemDataMap),
 
-  language: {},
+  language: { ui: {}, item: {}, spell: [] },
   language_selected: (localStorage.getItem("last_language") as LangOptions) || "en",
 
 };
@@ -110,6 +111,16 @@ const applicationSlice = createSlice({
       if (!state.saveData || state.playerSelected === undefined) return;
       state.saveData.players[state.playerSelected].spells[speel.type] = speel;
     },
+    setPlayerProficiencies(
+      state: ApplicationState,
+      action: PayloadAction<{id: number, value: number}>
+    ) {
+      if (!state.saveData || state.playerSelected === undefined) return;
+      const {id, value} = action.payload;
+      let proficiencies = [...state.saveData.players[state.playerSelected].proficiencies];
+      proficiencies[id] = value;
+      state.saveData.players[state.playerSelected].proficiencies = proficiencies;
+    },
     setPlayerInventory(
       state: ApplicationState,
       action: PayloadAction<PlayerInventory>
@@ -130,6 +141,7 @@ export const {
   setPlayerSelected,
   setPlayerStats,
   setPlayerInventory,
+  setPlayerProficiencies,
   setPlayerEquipament,
   setPlayerSpeel,
   setTab,

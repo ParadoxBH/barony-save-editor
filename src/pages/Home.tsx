@@ -31,6 +31,7 @@ export function Home() {
           backgroundPosition: "center",
           backgroundSize: "cover",
           p: 2,
+          position: "relative",
         }}
       >
         <LoadingSystem>

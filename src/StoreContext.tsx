@@ -4,7 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import type { EditorData, PlayerEquipment, PlayerInventory, PlayerStats } from "./utils/EditorDefinition";
+import type { EditorData, PlayerEquipment, PlayerInventory, PlayerStats, Unlockable } from "./utils/EditorDefinition";
 import type { ReactNode } from "react";
 import { items } from "../public/items.json";
 import type { LangData, LangOptions } from "./components/language";
@@ -13,6 +13,7 @@ export type ItemDataMap = { [key: string]: ItemData };
 export const TAB_CHARACTER = 0;
 export const TAB_INVENTORY = 1;
 export const TAB_EQUIPAMENT = 2;
+export const TAB_SPELLS = 3;
 
 export interface ItemData {
   name?: string;
@@ -101,6 +102,14 @@ const applicationSlice = createSlice({
       state.saveData.players[state.playerSelected].equipment =
         action.payload;
     },
+    setPlayerSpeel(
+      state: ApplicationState,
+      action: PayloadAction<Unlockable>
+    ) {
+      var speel = action.payload;
+      if (!state.saveData || state.playerSelected === undefined) return;
+      state.saveData.players[state.playerSelected].spells[speel.type] = speel;
+    },
     setPlayerInventory(
       state: ApplicationState,
       action: PayloadAction<PlayerInventory>
@@ -122,6 +131,7 @@ export const {
   setPlayerStats,
   setPlayerInventory,
   setPlayerEquipament,
+  setPlayerSpeel,
   setTab,
 } = applicationSlice.actions;
 

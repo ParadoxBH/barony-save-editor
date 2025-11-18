@@ -23,6 +23,7 @@ import {
   setTab,
   TAB_EQUIPAMENT,
   TAB_CHARACTER,
+  TAB_SPELLS,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -151,6 +152,7 @@ export function Header() {
               <Tab label={language.get("tab_character")} value={TAB_CHARACTER} />
               <Tab label={language.get("tab_inventory")} value={TAB_INVENTORY} />
               <Tab label={language.get("tab_equipment")} value={TAB_EQUIPAMENT} />
+              <Tab label={language.get("tab_spells")} value={TAB_SPELLS} />
             </Tabs>
           </Stack>
           <Stack direction="row" spacing={2} alignItems={"center"}>

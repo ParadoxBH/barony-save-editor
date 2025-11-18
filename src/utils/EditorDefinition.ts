@@ -17,7 +17,7 @@ type EquipmentSlotFirst =
   | "helmet"
   | "mask";
 
-interface Unlockable {
+export interface Unlockable {
   type: number;
   unlocked: boolean;
 }

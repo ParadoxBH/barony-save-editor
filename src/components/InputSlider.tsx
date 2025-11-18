@@ -1,5 +1,5 @@
 import { Slider, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Chip } from "./Chip";
 
 interface InputSliderProps {
@@ -14,6 +14,7 @@ interface InputSliderProps {
   min?: number;
   max?: number;
   labelValue?: (value: number) => string | number;
+  debounceMs?: number; // Tempo de debounce em ms (padrão: 300)
 }
 
 export function InputSlider({
@@ -24,41 +25,78 @@ export function InputSlider({
   min,
   max,
   labelValue,
+  debounceMs = 250,
 }: InputSliderProps) {
   const [tempValue, setTempValue] = useState<number>(value);
+  const debounceTimerRef = useRef(null);
+
   useEffect(() => {
     setTempValue(value);
   }, [value]);
 
-  function handleOnChange(
-    e: { target: { name: string; value: string } },
-    value: number,
-    activeThumb: number,
+  // Limpa o timer ao desmontar
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
+
+  function handleSliderChange(
+    _event: Event,
+    value: number | number[],
+    activeThumb: number
   ) {
-    let numberValue: number = parseInt(e.target.value.toString());
+    let numberValue = Array.isArray(value) ? value[0] : value;
     if(min != undefined)
       numberValue = Math.max(numberValue, min);
     if(max != undefined)
       numberValue = Math.min(numberValue, max);
-    if (onChange)
-      onChange({ target: { name: e.target.name, value: numberValue } }, numberValue, activeThumb);
     setTempValue(numberValue);
+  }
+
+  function handleSliderChangeCommitted(
+    _event: Event | React.SyntheticEvent,
+    value: number | number[]
+  ) {
+    let numberValue = Array.isArray(value) ? value[0] : value;
+    if(min != undefined)
+      numberValue = Math.max(numberValue, min);
+    if(max != undefined)
+      numberValue = Math.min(numberValue, max);
+
+    // Limpa timer anterior se existir
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    // Cria novo timer de debounce
+    debounceTimerRef.current = setTimeout(() => {
+      if (onChange) {
+        onChange(
+          { target: { name, value: numberValue } },
+          numberValue,
+          0
+        );
+      }
+    }, debounceMs);
   }
 
   return (
     <Stack flex={1}>
       <Stack
-        direction={"row"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        <Typography variant="subtitle2" color={"rgba(0,0,0,0.5)"}>
+        <Typography variant="subtitle2" color="rgba(0,0,0,0.5)">
           {label}
         </Typography>
-        <Chip label={!!labelValue ? labelValue(tempValue) : tempValue || "0"} />
+        <Chip label={labelValue ? labelValue(tempValue) : tempValue || "0"} />
       </Stack>
       <Slider
-        aria-label="Durabilidade"
+        aria-label={label}
         value={tempValue}
         name={name}
         step={1}
@@ -66,10 +104,8 @@ export function InputSlider({
         min={min}
         max={max}
         valueLabelDisplay="auto"
-        //@ts-ignore
-        onChange={handleOnChange}
-        //@ts-ignore
-        onChangeCommitted={handleOnChange}
+        onChange={handleSliderChange}
+        onChangeCommitted={handleSliderChangeCommitted}
       />
     </Stack>
   );

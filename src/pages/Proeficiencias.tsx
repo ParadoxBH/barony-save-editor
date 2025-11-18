@@ -36,7 +36,6 @@ export function Proeficiencias() {
   const dispatch = useAppDispatch();
   const language = useLanguage();
   const player = getCharacter();
-  const sliderMode = false; //ta bugado, entao vou deixar desligado por agora
 
   function handleUpdateStats(id: number, value: number) {
     dispatch(setPlayerProficiencies({ id, value }));
@@ -69,32 +68,14 @@ export function Proeficiencias() {
                       name={getIconName(id, player?.proficiencies[id])}
                       size={32}
                     />
-                    {sliderMode && (
-                      <InputSlider
-                        value={player?.proficiencies[id] || 0}
-                        name={`player_proficiencies_${map[id]}`}
-                        label={language.get(`player_proficiencies_${map[id]}`)}
-                        onChange={(e, value) => handleUpdateStats(id, value)}
-                        min={0}
-                        max={100}
-                      />
-                    )}
-                    {!sliderMode && (
-                      <>
-                        <InputNumber
-                          value={player?.proficiencies[id] || 0}
-                          name={`player_proficiencies_${map[id]}`}
-                          min={0}
-                          max={100}
-                          onChange={(e) =>
-                            handleUpdateStats(id, e.target.value)
-                          }
-                        />
-                        <Typography variant="subtitle2">
-                          {language.get(`player_proficiencies_${map[id]}`)}
-                        </Typography>
-                      </>
-                    )}
+                    <InputSlider
+                      value={player?.proficiencies[id] || 0}
+                      name={`player_proficiencies_${map[id]}`}
+                      label={language.get(`player_proficiencies_${map[id]}`)}
+                      onChange={(e, value) => handleUpdateStats(id, value)}
+                      min={0}
+                      max={100}
+                    />
                   </Stack>
                 </Grid>
               ))}

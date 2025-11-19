@@ -247,7 +247,7 @@ function TooltipInfo({ label, value, sx }: TooltipInfoProps) {
   );
 }
 
-export function ItemIcon({ image }: { image?: string }) {
+export function ItemIcon({ image, sx }: { image?: string, sx?: SxProps }) {
   return (
     <Box
       sx={{
@@ -265,6 +265,7 @@ export function ItemIcon({ image }: { image?: string }) {
         justifyContent: "center",
         m: 0.5,
         transition: "background-image 0.2s ease-in-out",
+        ...sx
       }}
     />
   );

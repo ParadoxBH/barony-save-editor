@@ -16,6 +16,7 @@ save_info_level: Dungeon level # How many floors have been descended
 save_info_player_num: Players # Count of how many players are saved in the game's lobby
 
 # Program tabs
+tab_dungeon: Dungeon # title of the tab that allows you to change the dungeon level
 tab_character: Character # title of the tab that allows changing the character's stats
 tab_proficiencies: Proficiencies # Tab title displaying the character's skill level
 tab_inventory: Inventory # Title of the tab that opens the player's inventory

@@ -8,13 +8,15 @@ import type { EditorData, PlayerEquipment, PlayerInventory, PlayerStats, Unlocka
 import type { ReactNode } from "react";
 import { items } from "../public/items.json";
 import type { LangData, LangOptions } from "./components/language";
+import type { LevelList } from "./pages/DungeonLevels";
 export type ItemDataMap = { [key: string]: ItemData };
 
-export const TAB_CHARACTER = 0;
-export const TAB_PROFICIENCIES = 1;
-export const TAB_INVENTORY = 2;
-export const TAB_EQUIPAMENT = 3;
-export const TAB_SPELLS = 4;
+export const TAB_DUNGEON = 0;
+export const TAB_CHARACTER = 1;
+export const TAB_PROFICIENCIES = 2;
+export const TAB_INVENTORY = 3;
+export const TAB_EQUIPAMENT = 4;
+export const TAB_SPELLS = 5;
 
 export interface ItemData {
   name?: string;
@@ -85,6 +87,12 @@ const applicationSlice = createSlice({
       state.saveName = saveName;
       state.playerSelected = saveData.players.findIndex(p => p.name === saveData.save.game_name);
     },
+    setDungeon(state: ApplicationState, action: PayloadAction<LevelList>) {
+      if(!state.saveData)
+        return;
+      const { secret, level_start } = action.payload;
+      state.saveData.dungeon = {level: level_start, secret};
+    },
     setPlayerSelected(state: ApplicationState, action: PayloadAction<number>) {
       state.playerSelected = action.payload;
     },
@@ -138,6 +146,7 @@ const applicationSlice = createSlice({
 export const {
   setLanguage,
   setSaveData,
+  setDungeon,
   setPlayerSelected,
   setPlayerStats,
   setPlayerInventory,

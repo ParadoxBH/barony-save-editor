@@ -8,11 +8,13 @@ import {
   TAB_INVENTORY,
   TAB_SPELLS,
   useAppSelector,
+  TAB_DUNGEON,
 } from "../StoreContext";
 import { Equipaments } from "./Equipaments";
 import { Character } from "./Character";
 import { Spells } from "./Spells";
 import { Proeficiencias } from "./Proeficiencias";
+import { Dungeon } from "./Dungeon";
 
 interface EditorProps {}
 
@@ -35,6 +37,7 @@ export function Editor({}: EditorProps) {
       }}
       flex={1}
     >
+      {tab === TAB_DUNGEON && <Dungeon />}
       {tab === TAB_CHARACTER && <Character player={player} />}
       {tab === TAB_PROFICIENCIES && <Proeficiencias />}
       {tab === TAB_INVENTORY && <InventoryGrid />}

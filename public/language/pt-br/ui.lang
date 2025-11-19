@@ -16,6 +16,7 @@ save_info_level: Nivel da masmorra # Quantos andares já foram descidos
 save_info_player_num: Jogadores # Contagem de quantos jogadores estão salvos no lobby do save do jogo
 
 # Abas do programa
+tab_dungeon: Masmorra # titulo da aba que permite alterar o nivel da masmorra
 tab_character: Personagem # titulo da aba que permite alterar as estatisticas do personagem
 tab_proficiencies: Habilidades # Título da aba com a listagem de nivel de habilidade do personagem
 tab_inventory: Inventario # titulo da aba que abre o inventario do jogador

@@ -37,6 +37,7 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
 
   return {
     save: save,
+    dungeon: { level: save.dungeon_lvl, secret: save.level_track > 0 },
     players: save.players.map((p) => {
       const inventory: Item[] = p.stats.inventory.map((i) =>
         parseItem(itens, i)
@@ -162,6 +163,8 @@ export function parseToSave(editor: EditorData): GameData {
 
   return {
     ...editor.save,
+    dungeon_lvl: editor.dungeon.level,
+    level_track: editor.dungeon.secret ? 1 : 0,
     players: players,
   } as GameData;
 }

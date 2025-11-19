@@ -24,6 +24,7 @@ import {
   TAB_CHARACTER,
   TAB_SPELLS,
   TAB_PROFICIENCIES,
+  TAB_DUNGEON,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -150,6 +151,7 @@ export function Header() {
               onChange={(e, value) => dispatch(setTab(value))}
               aria-label="basic tabs example"
             >
+              <Tab id={"dungeon"} value={TAB_DUNGEON} />
               <Tab id={"character"} value={TAB_CHARACTER} />
               <Tab id={"proficiencies"} value={TAB_PROFICIENCIES} />
               <Tab id={"inventory"} value={TAB_INVENTORY} />
@@ -166,11 +168,6 @@ export function Header() {
             <Typography sx={{ color: "#666" }}>
               {`📦 ${language.get("save_info_version")}: ${
                 saveData?.save.game_version || "?"
-              }`}
-            </Typography>
-            <Typography sx={{ color: "#666" }}>
-              {`⚔️ ${language.get("save_info_level")}: ${
-                saveData?.save.dungeon_lvl || "?"
               }`}
             </Typography>
             <Typography sx={{ color: "#666" }}>

@@ -1,8 +1,14 @@
 import type { GameData } from "./SaveDefinition";
 
 interface EditorData {
+  dungeon: Dungeon;
   save: GameData;
   players: Player[];
+}
+
+interface Dungeon {
+  level: number, 
+  secret: boolean,
 }
 
 type EquipmentSlotFirst =

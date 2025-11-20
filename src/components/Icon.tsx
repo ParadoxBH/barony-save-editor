@@ -15,7 +15,7 @@ export function Icon({ name, size, className, sx, format }: IconProps) {
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        backgroundImage: `url(./${name}.${format || "png"})`,
+        backgroundImage: `url(${name}.${format || "png"})`,
         width: size || 18,
         height: size || 18,
       }}

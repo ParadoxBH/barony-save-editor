@@ -93,7 +93,47 @@ item_type_book: Book
 item_type_spell_cat: Spell Cast
 item_type_thrown: Thrown
 
+
+# Player Classe
+player_class: Class # Label indicating the player's class, such as: mage, barbarian, archer, etc.
+player_class_barbarian: Barbarian
+player_class_warrior: Warrior
+player_class_healer: Healer
+player_class_rogue: Rogue
+player_class_wanderer: Wanderer
+player_class_cleric: Cleric
+player_class_merchant: Merchant
+player_class_wizard: Wizard
+player_class_arcanist: Arcanist
+player_class_joker: Joker
+player_class_sexton: Sexton
+player_class_ninja: Ninja
+player_class_monk: Monk
+player_class_conjurer: Conjurer
+player_class_accursed: Accursed
+player_class_mesmer: Mesmer
+player_class_brewer: Brewer
+player_class_mechanist: Mechanist
+player_class_punisher: Punisher
+player_class_shaman: Shaman
+player_class_hunter: Hunter
+
+# Player Racas
+player_race: Race # Text that indicates the player's race
+player_race_variation: Variation # Text next to the race to specify the race variation
+player_race_human: Human
+player_race_skeleton: Skeleton
+player_race_vampire: Vampire
+player_race_succubus: Succubus
+player_race_goatman: Goatman
+player_race_automaton: Automaton
+player_race_incubus: Incubus
+player_race_goblin: Goblin
+player_race_insectoid: Insectoid
+
 # Player Status
+player_sex: Sex # Button label indicating male or female
+player_stats: Attributes # text indicating the listing of the character’s attributes
 player_stats_str: Strength # text indicating strength
 player_stats_dex: Dexterity # text indicating dexterity
 player_stats_con: Constitution # text indicating how much constitution the player has

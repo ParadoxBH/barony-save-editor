@@ -93,7 +93,47 @@ item_type_book: Livro
 item_type_spell_cat: Feitiço
 item_type_thrown: Arremessável
 
+
+# Player Classe
+player_class: Classe # label que indica a classe do jogador como: mago, barbaro, arqueiro e etc...
+player_class_barbarian: Bárbaro
+player_class_warrior: Guerreiro
+player_class_healer: Curandeiro
+player_class_rogue: Ladino
+player_class_wanderer: Viajante
+player_class_cleric: Clérigo
+player_class_merchant: Comerciante
+player_class_wizard: Mago
+player_class_arcanist: Arcanista
+player_class_joker: Coringa
+player_class_sexton: Sacristão
+player_class_ninja: Ninja
+player_class_monk: Monge
+player_class_conjurer: Conjurador
+player_class_accursed: Amaldiçoado
+player_class_mesmer: Hipnotizador
+player_class_brewer: Alquimista
+player_class_mechanist: Mecânico
+player_class_punisher: Carrasco
+player_class_shaman: Xamã
+player_class_hunter: Caçador
+
+# Player Racas
+player_race: Raça # Texto que indica qual é a raça do jogador
+player_race_variation: Variação # texto que fica ao lado da raça para fazer qual é a variação da raça
+player_race_human: Humano
+player_race_skeleton: Esqueleto
+player_race_vampire: Vampiro
+player_race_succubus: Súcubos
+player_race_goatman: Homem Bode
+player_race_automaton: Automato
+player_race_incubus: Íncubus
+player_race_goblin: Goblin
+player_race_insectoid: Insectóide
+
 # Player Status
+player_sex: Sexualidade # label de botao que indica se é homem ou mulher
+player_stats: Atributos # texto que indica a listagem dos atributos do personagem
 player_stats_str: Força # texto que indica a força
 player_stats_dex: Destreza # texto que indica a destreza
 player_stats_con: Constituição # texto que indica quanto de constituição tem o jogador

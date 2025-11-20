@@ -4,7 +4,13 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { Provider, useDispatch, useSelector } from "react-redux";
-import type { EditorData, PlayerEquipment, PlayerInventory, PlayerStats, Unlockable } from "./utils/EditorDefinition";
+import type {
+  EditorData,
+  PlayerEquipment,
+  PlayerInventory,
+  PlayerStats,
+  Unlockable,
+} from "./utils/EditorDefinition";
 import type { ReactNode } from "react";
 import { items } from "../public/items.json";
 import type { LangData, LangOptions } from "./components/language";
@@ -17,6 +23,7 @@ export const TAB_PROFICIENCIES = 2;
 export const TAB_INVENTORY = 3;
 export const TAB_EQUIPAMENT = 4;
 export const TAB_SPELLS = 5;
+export const speelLimit = 30;
 
 export interface ItemData {
   name?: string;
@@ -42,7 +49,7 @@ function getItemsMapped(items: ItemDataMap) {
 
 type ApplicationState = {
   loading: {
-    language: boolean,
+    language: boolean;
   };
   tab: number;
   saveData?: EditorData;
@@ -62,20 +69,23 @@ const initialApplicationState: ApplicationState = {
   itens: getItemsMapped(items as ItemDataMap),
 
   language: { ui: {}, item: {}, spell: [] },
-  language_selected: (localStorage.getItem("last_language") as LangOptions) || "en",
-
+  language_selected:
+    (localStorage.getItem("last_language") as LangOptions) || "en",
 };
 
 const applicationSlice = createSlice({
   name: "application",
   initialState: initialApplicationState,
   reducers: {
-    setLanguage(state: ApplicationState, action: PayloadAction<{language: LangData, selected: LangOptions}>) {
-      const { selected, language } =  action.payload;
-      state.language_selected = selected; 
+    setLanguage(
+      state: ApplicationState,
+      action: PayloadAction<{ language: LangData; selected: LangOptions }>
+    ) {
+      const { selected, language } = action.payload;
+      state.language_selected = selected;
       state.language = language;
       localStorage.setItem("last_language", selected);
-      state.loading = {...state.loading, language: true};
+      state.loading = { ...state.loading, language: true };
     },
     setSaveData(
       state: ApplicationState,
@@ -85,13 +95,14 @@ const applicationSlice = createSlice({
       console.log("Load", saveData);
       state.saveData = saveData;
       state.saveName = saveName;
-      state.playerSelected = saveData.players.findIndex(p => p.name === saveData.save.game_name);
+      state.playerSelected = saveData.players.findIndex(
+        (p) => p.name === saveData.save.game_name
+      );
     },
     setDungeon(state: ApplicationState, action: PayloadAction<LevelList>) {
-      if(!state.saveData)
-        return;
+      if (!state.saveData) return;
       const { secret, level_start } = action.payload;
-      state.saveData.dungeon = {level: level_start, secret};
+      state.saveData.dungeon = { level: level_start, secret };
     },
     setPlayerSelected(state: ApplicationState, action: PayloadAction<number>) {
       state.playerSelected = action.payload;
@@ -108,34 +119,47 @@ const applicationSlice = createSlice({
       action: PayloadAction<PlayerEquipment>
     ) {
       if (!state.saveData || state.playerSelected === undefined) return;
-      state.saveData.players[state.playerSelected].equipment =
-        action.payload;
+      state.saveData.players[state.playerSelected].equipment = action.payload;
     },
-    setPlayerSpeel(
-      state: ApplicationState,
-      action: PayloadAction<Unlockable>
-    ) {
+    setPlayerSpeel(state: ApplicationState, action: PayloadAction<Unlockable>) {
       var speel = action.payload;
       if (!state.saveData || state.playerSelected === undefined) return;
-      state.saveData.players[state.playerSelected].spells[speel.type] = speel;
+      let newPack = { ...state.saveData.players[state.playerSelected].spells };
+      newPack = Object.keys(newPack)
+        .filter((id) => newPack[id].unlocked)
+        .reduce(
+          (result, s) => {
+            result[s] = newPack[s];
+            return result;
+          },
+          {} as {
+            [key: string]: Unlockable;
+          }
+        );
+      if(Object.values(newPack).length >= speelLimit && speel.unlocked)
+        return;
+      newPack[speel.type] = speel;
+      state.saveData.players[state.playerSelected].spells = newPack;
     },
     setPlayerProficiencies(
       state: ApplicationState,
-      action: PayloadAction<{id: number, value: number}>
+      action: PayloadAction<{ id: number; value: number }>
     ) {
       if (!state.saveData || state.playerSelected === undefined) return;
-      const {id, value} = action.payload;
-      let proficiencies = [...state.saveData.players[state.playerSelected].proficiencies];
+      const { id, value } = action.payload;
+      let proficiencies = [
+        ...state.saveData.players[state.playerSelected].proficiencies,
+      ];
       proficiencies[id] = value;
-      state.saveData.players[state.playerSelected].proficiencies = proficiencies;
+      state.saveData.players[state.playerSelected].proficiencies =
+        proficiencies;
     },
     setPlayerInventory(
       state: ApplicationState,
       action: PayloadAction<PlayerInventory>
     ) {
       if (!state.saveData || state.playerSelected === undefined) return;
-      state.saveData.players[state.playerSelected].inventory =
-        action.payload;
+      state.saveData.players[state.playerSelected].inventory = action.payload;
     },
     setTab(state: ApplicationState, action: PayloadAction<number>) {
       state.tab = action.payload;

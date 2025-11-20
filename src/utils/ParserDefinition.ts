@@ -15,7 +15,7 @@ import type {
 import { guid } from "./utils";
 import { type ItemDataMap } from "../StoreContext";
 import { genItemNull } from "../pages/ItemEditor";
-import { ITEMID_SPELL } from "../pages/Inventory";
+import { ITEMID_SPELL, ITEMREF_NULL } from "../pages/Inventory";
 
 function parseItem(itens: ItemDataMap, i: SavePlayerStatsInventory): Item {
   return {
@@ -139,6 +139,11 @@ export function parseToSave(editor: EditorData): GameData {
     players.push({
       ...player,
       spells: spells.map(s => inventoryId[s]),
+      hotbar: player.hotbar.map(h => ITEMREF_NULL),
+      hotbar_alternate: player.hotbar_alternate.map(h => h.map(h => ITEMREF_NULL)),
+      selected_spell: ITEMREF_NULL,
+      selected_spell_alternate: player.selected_spell_alternate.map(h => ITEMREF_NULL),
+      selected_spell_last_appearance: -1,
       stats: {
         ...player.stats,
         ...editorPlayer.stats,

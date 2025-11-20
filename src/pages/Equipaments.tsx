@@ -5,11 +5,13 @@ import type { EquipmentSlotFirst, Item } from "../utils/EditorDefinition";
 import { useState } from "react";
 import { genItemNull, ItemEditor } from "./ItemEditor";
 import { useLanguage } from "../components/language";
+import type { ItemEquipSlot } from "../components/ItemSelectionDialog";
 
 export function Equipaments() {
   const character = getCharacter();
   const [slotEdit, setSlotEdit] = useState<string | undefined>(undefined);
   const [itemEdit, setItemEdit] = useState<Item | undefined>(undefined);
+  const [filterEquipSlot, setFilterEquipSlot] = useState<ItemEquipSlot | undefined>();
   const dispatch = useAppDispatch();
   const language = useLanguage();
 
@@ -28,9 +30,24 @@ export function Equipaments() {
     "shoes",
     "weapon",//
   ];
+  
+  const slotToEquipslot = {
+    "mask": "mask",
+    "cloak": "cloak",
+    "amulet": "amulet",
+    "ring": "ring",
+    "shield": "offhand",
+    "helmet": "helm",
+    "breastplate": "torso",
+    "gloves": "gloves",
+    "shoes": "boots",
+    "weapon": "mainhand",
+  };
 
   function handleOnEdit(slot: string)
   {
+    //@ts-ignore
+    setFilterEquipSlot(slot in slotToEquipslot ? slotToEquipslot[slot] : undefined);
     setSlotEdit(slot);
     setItemEdit(character && slot in character?.equipment ? character?.equipment[slot] : genItemNull())
   }
@@ -108,6 +125,7 @@ export function Equipaments() {
           onChange={handleChangeItem}
           onClose={handleClose}
           onDelete={handleDeleteItem}
+          filterEquipSlot={filterEquipSlot}
         />
       </Stack>
     </Paper>

@@ -4,9 +4,10 @@ import { Tab as MuiTab, Stack, Tooltip, Typography } from "@mui/material";
 
 interface TabProps {
   id: string;
+  icon?: string;
   value: number;
 }
-export function Tab({ id, value, ...props }: TabProps) {
+export function Tab({ id, value, icon, ...props }: TabProps) {
   const language = useLanguage();
   const label = language.get(`tab_${id}`);
   return (
@@ -15,7 +16,7 @@ export function Tab({ id, value, ...props }: TabProps) {
       label={
         <Tooltip title={label} placement="top" disableInteractive>
           <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            <Icon name={`tabs/${id}`} size={32} />
+            <Icon name={icon || `tabs/${id}`} size={32} />
             <Typography fontWeight={"bold"}>{label}</Typography>
           </Stack>
         </Tooltip>

@@ -25,10 +25,12 @@ import {
   TAB_SPELLS,
   TAB_PROFICIENCIES,
   TAB_DUNGEON,
+  getCharacter,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
 import { Tab } from "./HeaderTab";
+import { getRaceIcon } from "./CharacterRace";
 
 export function Header() {
   const { tab, saveData, saveName, playerSelected, itens, loading } =
@@ -36,6 +38,7 @@ export function Header() {
   const dispatch = useAppDispatch();
   const language = useLanguage();
   const isLoading = Object.values(loading).find((l) => !l) !== undefined;
+  const player = getCharacter();
 
   const handleFileUpload = (event: any): void => {
     const file = event.target.files?.[0];
@@ -95,7 +98,9 @@ export function Header() {
         {!isLoading && (
           <Stack direction="row" spacing={2}>
             <Stack alignItems={"start"}>
-              <Typography variant="subtitle2">{`${language.get("file_name_label")}:`}</Typography>
+              <Typography variant="subtitle2">{`${language.get(
+                "file_name_label"
+              )}:`}</Typography>
               <Chip
                 sx={{ backgroundColor: "rgba(255,255,255,0.5)", minWidth: 300 }}
                 label={saveName || language.get("file_name_empty")}
@@ -131,7 +136,7 @@ export function Header() {
               </Typography>
               <Typography>{language.get("get_file")}</Typography>
             </Button>
-            <LanguageSelector/>
+            <LanguageSelector />
           </Stack>
         )}
       </Stack>
@@ -152,7 +157,11 @@ export function Header() {
               aria-label="basic tabs example"
             >
               <Tab id={"dungeon"} value={TAB_DUNGEON} />
-              <Tab id={"character"} value={TAB_CHARACTER} />
+              <Tab
+                icon={player ? getRaceIcon(player) : undefined}
+                id={"character"}
+                value={TAB_CHARACTER}
+              />
               <Tab id={"proficiencies"} value={TAB_PROFICIENCIES} />
               <Tab id={"inventory"} value={TAB_INVENTORY} />
               <Tab id={"equipment"} value={TAB_EQUIPAMENT} />
@@ -226,7 +235,15 @@ export function Header() {
                     </MenuItem>
                     {saveData?.players.map((p, index) => (
                       <MenuItem key={index} value={index}>
-                        {(p.name || language.get("player_selector_option_empty")).replace("%s", (index+1).toString()) }
+                        <Stack spacing={2} direction={"row"}>
+                          <Icon name={getRaceIcon(p)} />
+                          <Typography>
+                            {(
+                              p.name ||
+                              language.get("player_selector_option_empty")
+                            ).replace("%s", (index + 1).toString())}
+                          </Typography>
+                        </Stack>
                       </MenuItem>
                     ))}
                   </Select>

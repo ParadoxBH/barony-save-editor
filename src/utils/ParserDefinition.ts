@@ -47,6 +47,11 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
       return {
         _uuid: guid(),
         name: p.stats.name,
+        
+        class: p.char_class,
+        race: p.race,
+        type: p.stats.type,
+        sex: p.stats.sex,
 
         spells: p.spells.reduce((result, s) => {
           const { item, slot } = getBag(inventory, s);
@@ -138,6 +143,8 @@ export function parseToSave(editor: EditorData): GameData {
 
     players.push({
       ...player,
+      char_class: editorPlayer.class,
+      race: editorPlayer.race,
       spells: spells.map(s => inventoryId[s]),
       hotbar: player.hotbar.map(h => ITEMREF_NULL),
       hotbar_alternate: player.hotbar_alternate.map(h => h.map(h => ITEMREF_NULL)),
@@ -147,6 +154,8 @@ export function parseToSave(editor: EditorData): GameData {
       stats: {
         ...player.stats,
         ...editorPlayer.stats,
+        type: editorPlayer.type,
+        sex: editorPlayer.sex,
         PROFICIENCIES: editorPlayer.proficiencies,
         inventory: inventory.map(i => ({
           type: i.type,

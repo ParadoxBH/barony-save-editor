@@ -71,6 +71,11 @@ interface PlayerStats {
 interface Player {
   _uuid: string;
   name: string;
+  
+  class: number;
+  race: number;
+  type: number;
+  sex: number;
 
   stats: PlayerStats;
   proficiencies: number[];

@@ -14,6 +14,29 @@ import { useAppSelector } from "../StoreContext";
 import { theme } from "../theme";
 import { useLanguage } from "./language";
 
+export const itemEffectIcon: {[key: number]: string} = {
+  53: "water",
+  54: "drunk",
+  55: "juice",
+  56: "sickness",
+  57: "confuse",
+  58: "extrahealing",
+  59: "healing",
+  60: "cureailment",
+  61: "sleep",
+  62: "restoremagic",
+  63: "invisible",
+  64: "levitation",
+  65: "speed",
+  66: "acidspray",
+  67: "paralyze",
+  218: "polymorph",
+  222: "fireball",
+  223: "cold",
+  224: "lightning",
+  225: "strength",
+}
+
 interface ItemSlotProps {
   item: Item | null;
   onClick?: () => void;
@@ -100,7 +123,10 @@ export function ItemSlot({
               currentItem ? (
                 <Stack minWidth={150}>
                   <TooltipInfo
-                    label={language.getItem(currentItem?.name, item?.identified)}
+                    label={language.getItem(
+                      currentItem?.name,
+                      item?.identified
+                    )}
                     sx={{
                       label: {
                         color: theme.palette.primary.light,
@@ -165,13 +191,19 @@ export function ItemSlot({
             <Box>
               <ItemIcon
                 image={
-                  currentItem && currentItem.item_images
+                  currentItem && currentItem.item_id
                     ? currentItem.item_images[
                         index % currentItem.item_images.length
                       ]
                     : undefined
                 }
               />
+              {(item && item.type in itemEffectIcon) && (
+                <ItemIcon
+                  image={`potions/${itemEffectIcon[item.type]}.png`}
+                  sx={{ left: "40%", bottom: "40%", right: 0, top: 0 }}
+                />
+              )}
             </Box>
           </Tooltip>
         )}
@@ -247,7 +279,7 @@ function TooltipInfo({ label, value, sx }: TooltipInfoProps) {
   );
 }
 
-export function ItemIcon({ image, sx }: { image?: string, sx?: SxProps }) {
+export function ItemIcon({ image, sx }: { image?: string; sx?: SxProps }) {
   return (
     <Box
       sx={{
@@ -265,7 +297,7 @@ export function ItemIcon({ image, sx }: { image?: string, sx?: SxProps }) {
         justifyContent: "center",
         m: 0.5,
         transition: "background-image 0.2s ease-in-out",
-        ...sx
+        ...sx,
       }}
     />
   );

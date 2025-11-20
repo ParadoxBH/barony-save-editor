@@ -1,133 +1,134 @@
-import { Paper, Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { ItemSlot, getSlotColor } from "../components/ItemSlot";
-import { getCharacter, setPlayerEquipament, useAppDispatch } from "../StoreContext";
+import {
+  getCharacter,
+  setPlayerEquipament,
+  useAppDispatch,
+} from "../StoreContext";
 import type { EquipmentSlotFirst, Item } from "../utils/EditorDefinition";
 import { useState } from "react";
 import { genItemNull, ItemEditor } from "./ItemEditor";
 import { useLanguage } from "../components/language";
 import type { ItemEquipSlot } from "../components/ItemSelectionDialog";
+import { TabWindow } from "../components/TabWindow";
 
 export function Equipaments() {
   const character = getCharacter();
   const [slotEdit, setSlotEdit] = useState<string | undefined>(undefined);
   const [itemEdit, setItemEdit] = useState<Item | undefined>(undefined);
-  const [filterEquipSlot, setFilterEquipSlot] = useState<ItemEquipSlot | undefined>();
+  const [filterEquipSlot, setFilterEquipSlot] = useState<
+    ItemEquipSlot | undefined
+  >();
   const dispatch = useAppDispatch();
   const language = useLanguage();
 
   const slotsL: EquipmentSlotFirst[] = [
-    "mask",//
-    "cloak",//
-    "amulet",//
-    "ring",//
-    "shield",//
+    "mask", //
+    "cloak", //
+    "amulet", //
+    "ring", //
+    "shield", //
   ];
 
   const slotsR: EquipmentSlotFirst[] = [
-    "helmet",//
-    "breastplate",//
-    "gloves",//
+    "helmet", //
+    "breastplate", //
+    "gloves", //
     "shoes",
-    "weapon",//
+    "weapon", //
   ];
-  
+
   const slotToEquipslot = {
-    "mask": "mask",
-    "cloak": "cloak",
-    "amulet": "amulet",
-    "ring": "ring",
-    "shield": "offhand",
-    "helmet": "helm",
-    "breastplate": "torso",
-    "gloves": "gloves",
-    "shoes": "boots",
-    "weapon": "mainhand",
+    mask: "mask",
+    cloak: "cloak",
+    amulet: "amulet",
+    ring: "ring",
+    shield: "offhand",
+    helmet: "helm",
+    breastplate: "torso",
+    gloves: "gloves",
+    shoes: "boots",
+    weapon: "mainhand",
   };
 
-  function handleOnEdit(slot: string)
-  {
+  function handleOnEdit(slot: string) {
     //@ts-ignore
-    setFilterEquipSlot(slot in slotToEquipslot ? slotToEquipslot[slot] : undefined);
+    setFilterEquipSlot(
+      slot in slotToEquipslot ? slotToEquipslot[slot] : undefined
+    );
     setSlotEdit(slot);
-    setItemEdit(character && slot in character?.equipment ? character?.equipment[slot] : genItemNull())
+    setItemEdit(
+      character && slot in character?.equipment
+        ? character?.equipment[slot]
+        : genItemNull()
+    );
   }
 
-  function handleDeleteItem()
-  {
-    if(character && slotEdit)
-    {
-      const equipment = {...character.equipment};
+  function handleDeleteItem() {
+    if (character && slotEdit) {
+      const equipment = { ...character.equipment };
       delete equipment[slotEdit];
       dispatch(setPlayerEquipament(equipment));
     }
     handleClose();
   }
 
-  function handleChangeItem(item: Item)
-  {
-    if(character && slotEdit)
-    {
-      const equipment = {...character.equipment};
+  function handleChangeItem(item: Item) {
+    if (character && slotEdit) {
+      const equipment = { ...character.equipment };
       equipment[slotEdit] = item;
       dispatch(setPlayerEquipament(equipment));
     }
     handleClose();
   }
 
-
-  function handleClose()
-  {
+  function handleClose() {
     setSlotEdit(undefined);
     setItemEdit(undefined);
   }
 
   return (
-    <Paper elevation={3}>
-      <Stack p={3} alignItems={"center"} spacing={2}>
-        <Typography variant="h6" gutterBottom>
-          {language.get("tab_equipment")}
-        </Typography>
-        <Stack
-          spacing={1}
-          direction={"row"}
-          alignItems="stretch"
-          alignContent={"stretch"}
-        >
-          <Stack spacing={1} alignItems={"center"}>
-            {slotsL.map((s) => (
-              <ItemSlot
-                key={`slot_${s}`}
-                item={character?.equipment[s] || null}
-                onClick={() => handleOnEdit(s)}
-              />
-            ))}
-          </Stack>
-          <Box
-            sx={{
-              background: getSlotColor(null),
-              width: 150,
-              flex: 1,
-              borderRadius: 1,
-            }}
-          />
-          <Stack spacing={1} alignItems={"center"}>
-            {slotsR.map((s) => (
-              <ItemSlot
-                key={`slot_${s}`}
-                item={character?.equipment[s] || null}
-                onClick={() => handleOnEdit(s)}
-              />
-            ))}
-          </Stack>
+    <TabWindow label={language.get("tab_equipment")}>
+      <Stack
+        spacing={1}
+        direction={"row"}
+        alignItems="stretch"
+        alignContent={"stretch"}
+      >
+        <Stack spacing={1} alignItems={"center"}>
+          {slotsL.map((s) => (
+            <ItemSlot
+              key={`slot_${s}`}
+              item={character?.equipment[s] || null}
+              onClick={() => handleOnEdit(s)}
+            />
+          ))}
         </Stack>
-        <ItemEditor 
-          item={itemEdit}
-          onChange={handleChangeItem}
-          onClose={handleClose}
-          onDelete={handleDeleteItem}
-          filterEquipSlot={filterEquipSlot}
+        <Box
+          sx={{
+            background: getSlotColor(null),
+            width: 150,
+            flex: 1,
+            borderRadius: 1,
+          }}
         />
+        <Stack spacing={1} alignItems={"center"}>
+          {slotsR.map((s) => (
+            <ItemSlot
+              key={`slot_${s}`}
+              item={character?.equipment[s] || null}
+              onClick={() => handleOnEdit(s)}
+            />
+          ))}
+        </Stack>
       </Stack>
-    </Paper>
+      <ItemEditor
+        item={itemEdit}
+        onChange={handleChangeItem}
+        onClose={handleClose}
+        onDelete={handleDeleteItem}
+        filterEquipSlot={filterEquipSlot}
+      />
+    </TabWindow>
   );
 }

@@ -1,15 +1,14 @@
 import React from "react";
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import {
   getCharacter,
   setPlayerProficiencies,
   useAppDispatch,
 } from "../StoreContext";
 import { useLanguage } from "../components/language";
-import { InputStatus } from "../components/InputStatus";
-import { InputNumber } from "../components/InputNumber";
 import { Icon } from "../components/Icon";
 import { InputSlider } from "../components/InputSlider";
+import { TabWindow } from "../components/TabWindow";
 
 const map = [
   "tinkering",
@@ -47,42 +46,31 @@ export function Proeficiencias() {
   }
 
   return (
-    <Paper elevation={3}>
-      <Box p={3}>
-        <Stack spacing={1} alignItems={"stretch"}>
-          <Stack alignItems={"center"}>
-            <Typography variant="h6" gutterBottom>
-              {language.get("tab_proficiencies")}
-            </Typography>
-          </Stack>
-          <Stack spacing={0.5} alignItems={"center"} direction={"row"}>
-            <Grid container spacing={0.5} columnSpacing={4} width={600}>
-              {orderShow.map((id, index) => (
-                <Grid size={6} key={`player_proficiencies_${map[id]}`}>
-                  <Stack
-                    direction={index % 2 == 0 ? "row" : "row-reverse"}
-                    spacing={2}
-                    alignItems={"center"}
-                  >
-                    <Icon
-                      name={getIconName(id, player?.proficiencies[id])}
-                      size={32}
-                    />
-                    <InputSlider
-                      value={player?.proficiencies[id] || 0}
-                      name={`player_proficiencies_${map[id]}`}
-                      label={language.get(`player_proficiencies_${map[id]}`)}
-                      onChange={(e, value) => handleUpdateStats(id, value)}
-                      min={0}
-                      max={100}
-                    />
-                  </Stack>
-                </Grid>
-              ))}
-            </Grid>
-          </Stack>
-        </Stack>
-      </Box>
-    </Paper>
+    <TabWindow label={language.get("tab_proficiencies")}>
+      <Grid container spacing={0.5} columnSpacing={4} width={600}>
+        {orderShow.map((id, index) => (
+          <Grid size={6} key={`player_proficiencies_${map[id]}`}>
+            <Stack
+              direction={index % 2 == 0 ? "row" : "row-reverse"}
+              spacing={2}
+              alignItems={"center"}
+            >
+              <Icon
+                name={getIconName(id, player?.proficiencies[id])}
+                size={32}
+              />
+              <InputSlider
+                value={player?.proficiencies[id] || 0}
+                name={`player_proficiencies_${map[id]}`}
+                label={language.get(`player_proficiencies_${map[id]}`)}
+                onChange={(e, value) => handleUpdateStats(id, value)}
+                min={0}
+                max={100}
+              />
+            </Stack>
+          </Grid>
+        ))}
+      </Grid>
+    </TabWindow>
   );
 }

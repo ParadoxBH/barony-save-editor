@@ -1,10 +1,11 @@
-import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useLanguage } from "../components/language";
 import { ItemIcon } from "../components/ItemSlot";
-import { getLevelList, levels, type LevelList } from "./DungeonLevels";
+import { getLevelList, type LevelList } from "./DungeonLevels";
 import { useState } from "react";
 import { setDungeon, useAppDispatch, useAppSelector } from "../StoreContext";
 import { Chip } from "../components/Chip";
+import { TabWindow } from "../components/TabWindow";
 
 interface ItemProps {
   map: LevelList;
@@ -12,18 +13,20 @@ interface ItemProps {
 }
 
 function Item({ map, selected }: ItemProps) {
-  const language = useLanguage();
   const dispatch = useAppDispatch();
   const size = 162 / 2;
 
-  function handleChangeLevel()
-  {
+  function handleChangeLevel() {
     dispatch(setDungeon(map));
   }
 
   return (
     <Grid size={3}>
-      <Button fullWidth variant={selected ? "contained" : "outlined"} onClick={handleChangeLevel}>
+      <Button
+        fullWidth
+        variant={selected ? "contained" : "outlined"}
+        onClick={handleChangeLevel}
+      >
         <Stack direction={"column"} alignItems={"center"} spacing={1}>
           <Box sx={{ width: size, height: size, position: "relative" }}>
             <ItemIcon
@@ -46,9 +49,7 @@ function Item({ map, selected }: ItemProps) {
                 <Chip
                   color={map.secret ? "warning" : "primary"}
                   label={
-                    map.level_start === Infinity
-                      ? "???"
-                      : `${map.level_start}`
+                    map.level_start === Infinity ? "???" : `${map.level_start}`
                   }
                 />
               </Box>
@@ -68,28 +69,21 @@ export function Dungeon() {
   const { saveData } = useAppSelector((s) => s.common);
   const [maps, setMaps] = useState<LevelList[]>(getLevelList());
   return (
-    <Box maxHeight={"100%"} display={"flex"}>
-      <Paper elevation={3} sx={{ display: "flex" }}>
-        <Stack p={3} alignItems={"center"} spacing={2}>
-          <Typography variant="h6" gutterBottom>
-            {language.get("tab_dungeon")}
-          </Typography>
-          <Box flex={1} width={600} overflow={"auto"}>
-            <Grid container spacing={0.5}>
-              {maps.map((map) => (
-                <Item
-                  key={`level_${map.level_start}_in_${map.level_start}`}
-                  map={map}
-                  selected={
-                    saveData && saveData.dungeon.level >= map.level_start && saveData.dungeon.level <= map.level_end &&
-                    map.secret === saveData?.dungeon.secret
-                  }
-                />
-              ))}
-            </Grid>
-          </Box>
-        </Stack>
-      </Paper>
-    </Box>
+    <TabWindow label={language.get("tab_dungeon")} width={600}>
+      <Grid container spacing={0.5}>
+        {maps.map((map) => (
+          <Item
+            key={`level_${map.level_start}_in_${map.level_start}`}
+            map={map}
+            selected={
+              saveData &&
+              saveData.dungeon.level >= map.level_start &&
+              saveData.dungeon.level <= map.level_end &&
+              map.secret === saveData?.dungeon.secret
+            }
+          />
+        ))}
+      </Grid>
+    </TabWindow>
   );
 }

@@ -124,7 +124,7 @@ export function parseToSave(editor: EditorData): GameData {
         .map((s, index) => {
           const spellItem = genItemNull();
           spellItem.x = index%4;
-          spellItem.y = index/4;
+          spellItem.y = Math.floor(index/4);
           spellItem.type = ITEMID_SPELL;
           spellItem.appearance = s.type;
           spells.push(spellItem._uuid);

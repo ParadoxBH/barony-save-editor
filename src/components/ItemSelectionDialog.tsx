@@ -24,6 +24,7 @@ import { useAppSelector, type ItemDataMap } from "../StoreContext";
 import { TablePaginator, usePaginator } from "./TPaginator";
 import { StyledDialog } from "./StyledDialog";
 import { useLanguage } from "./language";
+import { ITEMID_SPELL } from "../pages/Inventory";
 
 // --- Interfaces de Tipagem (Mantidas do original) ---
 
@@ -120,6 +121,9 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
             return false;
         }
       }
+      //Se o item for uma spell não é para exibir aqui
+      if(item.item_id === ITEMID_SPELL)
+        return false;
       //filtrar categoria
       if(filterCategory !== "ALL" && item.item_category !== filterCategory)
         return false;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Icon } from "../components/Icon";
 import {
   Divider,
@@ -31,6 +31,10 @@ import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
 import { Tab } from "./HeaderTab";
 import { getRaceIcon } from "./CharacterRace";
+import {
+  InputSelection,
+  type InputSelectionOptions,
+} from "../components/InputSelection";
 
 export function Header() {
   const { tab, saveData, saveName, playerSelected, itens, loading } =
@@ -39,6 +43,22 @@ export function Header() {
   const language = useLanguage();
   const isLoading = Object.values(loading).find((l) => !l) !== undefined;
   const player = getCharacter();
+  const playerOptions = useMemo(
+    () =>
+      [
+        {
+          label: <em>{language.get("player_selector_option_null")}</em>,
+        },
+        ...(saveData?.players || []).map((p, index) => ({
+          value: index,
+          icon: getRaceIcon(p),
+          label: (
+            p.name || language.get("player_selector_option_empty")
+          ).replace("%s", (index + 1).toString()),
+        })),
+      ] as InputSelectionOptions,
+    [language, saveData]
+  );
 
   const handleFileUpload = (event: any): void => {
     const file = event.target.files?.[0];
@@ -188,66 +208,23 @@ export function Header() {
             {saveData && (
               <>
                 <Divider orientation="vertical" flexItem />
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel
-                    error={playerSelected === undefined}
-                    id="demo-simple-select-helper-label"
-                    sx={{
-                      transform: "translate(16px, 9px) scale(1)",
-                      "&.MuiInputLabel-shrink": {
-                        transform: "translate(16px, -9px) scale(0.75)",
-                      },
-                    }}
-                  >
-                    {playerSelected === undefined
+                <InputSelection
+                  name={"playerSelected"}
+                  value={playerSelected}
+                  label={
+                    playerSelected === undefined
                       ? language.get("player_selector_value_empty")
-                      : language.get("player_selector_label")}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={playerSelected}
-                    label={
-                      playerSelected === undefined
-                        ? language.get("player_selector_value_empty")
-                        : language.get("player_selector_label")
-                    }
-                    error={playerSelected === undefined}
-                    onChange={(e) =>
-                      dispatch(setPlayerSelected(e.target.value))
-                    }
-                    sx={{
+                      : language.get("player_selector_label")
+                  }
+                  error={playerSelected === undefined}
+                  onChange={(value) => dispatch(setPlayerSelected(value))}
+                  sx={{
+                    select: {
                       width: 250,
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderWidth: "1px",
-                      },
-                      "& .MuiSelect-select": {
-                        paddingTop: (theme) => theme.spacing(1),
-                        paddingBottom: (theme) => theme.spacing(1),
-                        paddingLeft: (theme) => theme.spacing(2),
-                        paddingRight: (theme) => theme.spacing(2),
-                        textAlign: "left",
-                      },
-                    }}
-                  >
-                    <MenuItem value={undefined}>
-                      <em>{language.get("player_selector_option_null")}</em>
-                    </MenuItem>
-                    {saveData?.players.map((p, index) => (
-                      <MenuItem key={index} value={index}>
-                        <Stack spacing={2} direction={"row"}>
-                          <Icon name={getRaceIcon(p)} />
-                          <Typography>
-                            {(
-                              p.name ||
-                              language.get("player_selector_option_empty")
-                            ).replace("%s", (index + 1).toString())}
-                          </Typography>
-                        </Stack>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    },
+                  }}
+                  options={playerOptions}
+                />
               </>
             )}
           </Stack>

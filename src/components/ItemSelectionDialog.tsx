@@ -25,6 +25,7 @@ import { TablePaginator, usePaginator } from "./TPaginator";
 import { StyledDialog } from "./StyledDialog";
 import { useLanguage } from "./language";
 import { ITEMID_SPELL } from "../pages/Inventory";
+import { InputSelection } from "./InputSelection";
 
 // --- Interfaces de Tipagem (Mantidas do original) ---
 
@@ -48,9 +49,34 @@ interface ItemDetails {
   };
 }
 
-export type ItemCategory = "armor" | "weapon" | "amulet" | "potion" | "scroll" | "magicstaff" | "ring" | "spellbook" | "gem" | "tool" | "food" | "book" | "spell_cat" | "thrown";
+export type ItemCategory =
+  | "armor"
+  | "weapon"
+  | "amulet"
+  | "potion"
+  | "scroll"
+  | "magicstaff"
+  | "ring"
+  | "spellbook"
+  | "gem"
+  | "tool"
+  | "food"
+  | "book"
+  | "spell_cat"
+  | "thrown";
 
-export type ItemEquipSlot = "mainhand" | "offhand" | "torso" | "helm" | "gloves" | "boots" | "cloak" | "amulet" | "ring" | "mask" | "spell";
+export type ItemEquipSlot =
+  | "mainhand"
+  | "offhand"
+  | "torso"
+  | "helm"
+  | "gloves"
+  | "boots"
+  | "cloak"
+  | "amulet"
+  | "ring"
+  | "mask"
+  | "spell";
 
 type SelectedItem = ItemDetails & {
   name: string;
@@ -112,22 +138,19 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
     var filter = allItems.filter((item) => {
       const languageName = language.getItem(item.name, true);
       //Filtro
-      if(filterText.length > 0)
-      {
+      if (filterText.length > 0) {
         //Filtrar nome traduzido
-        if(!languageName.toLowerCase().includes(filterText.toLowerCase()))
-        {
-          if(!item.name.toLowerCase().includes(filterText.toLowerCase()))
+        if (!languageName.toLowerCase().includes(filterText.toLowerCase())) {
+          if (!item.name.toLowerCase().includes(filterText.toLowerCase()))
             return false;
         }
       }
       //Se o item for uma spell não é para exibir aqui
-      if(item.item_id === ITEMID_SPELL)
-        return false;
+      if (item.item_id === ITEMID_SPELL) return false;
       //filtrar categoria
-      if(filterCategory !== "ALL" && item.item_category !== filterCategory)
+      if (filterCategory !== "ALL" && item.item_category !== filterCategory)
         return false;
-      if(filterEquipSlot !== undefined && item.equip_slot !== filterEquipSlot)
+      if (filterEquipSlot !== undefined && item.equip_slot !== filterEquipSlot)
         return false;
       return true;
     });
@@ -154,7 +177,11 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
           {/* Container de Filtros */}
           <Box sx={{ p: 2, display: "flex", gap: 2, alignItems: "center" }}>
             <ItemSlot
-              item={value != undefined ? { type: value, identified: true } : undefined}
+              item={
+                value != undefined
+                  ? { type: value, identified: true }
+                  : undefined
+              }
               showInf
             />
             {/* Filtro por Nome */}
@@ -168,21 +195,22 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
             />
 
             {/* Filtro por Tipo/Categoria */}
-            {!filterEquipSlot && <FormControl variant="outlined" size="small" sx={{ minWidth: 200 }}>
-              <InputLabel id="category-filter-label">Tipo</InputLabel>
-              <Select
-                labelId="category-filter-label"
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
+            {!filterEquipSlot && (
+              <InputSelection
+                name={"filterSlot"}
                 label={language.get("item_type_label")}
-              >
-                {uniqueCategories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category === "ALL" ? language.get("item_type_all") : language.get(`item_type_${category}`)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>}
+                value={filterCategory}
+                onChange={(value) => setFilterCategory(value)}
+                options={uniqueCategories.map((category) => ({
+                  value: category,
+                  label:
+                    category === "ALL"
+                      ? language.get("item_type_all")
+                      : language.get(`item_type_${category}`),
+                }))}
+                sx={{root: {width: 300}}}
+              />
+            )}
           </Box>
           <Divider />
         </>

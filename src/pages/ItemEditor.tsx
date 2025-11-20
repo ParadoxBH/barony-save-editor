@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import type { Item } from "../utils/EditorDefinition";
 import { ItemIcon, ItemSlot } from "../components/ItemSlot";
-import { ItemSelectionDialog } from "../components/ItemSelectionDialog";
+import { ItemSelectionDialog, type ItemEquipSlot } from "../components/ItemSelectionDialog";
 import { useAppSelector } from "../StoreContext";
 import { StyledDialog } from "../components/StyledDialog";
 import { InputSlider } from "../components/InputSlider";
@@ -26,6 +26,7 @@ interface InventoryItemEditorProps {
   onChange: (updatedItem: Item) => void;
   onClose?: () => void;
   onDelete?: () => void;
+  filterEquipSlot?: ItemEquipSlot;
 }
 
 export function genItemNull() {
@@ -48,6 +49,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
   item,
   onChange,
   onClose,
+  filterEquipSlot,
   onDelete,
 }) => {
   // Use o estado local para gerenciar as alterações do formulário
@@ -191,6 +193,7 @@ export const ItemEditor: React.FC<InventoryItemEditorProps> = ({
                   });
                 }}
                 value={editedItem.type}
+                filterEquipSlot={filterEquipSlot}
               />
 
               <InputSlider

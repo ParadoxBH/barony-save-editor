@@ -20,8 +20,7 @@ import {
 // Assumindo que esta é a função que busca e mapeia todos os seus itens
 // Importação de exemplo (mantenha a sua importação real):
 import { ItemSlot } from "./ItemSlot";
-import type { ItemDataMap } from "../pages/Inventory";
-import { useAppDispatch, useAppSelector } from "../StoreContext";
+import { useAppSelector, type ItemDataMap } from "../StoreContext";
 import { TablePaginator, usePaginator } from "./TPaginator";
 import { StyledDialog } from "./StyledDialog";
 import { useLanguage } from "./language";
@@ -39,14 +38,18 @@ interface ItemDetails {
   gold_value: number;
   weight_value: number;
   item_level: number;
-  item_category: "ARMOR" | "WEAPON" | string;
-  equip_slot: "offhand" | "mainhand" | string;
+  item_category: ItemCategory;
+  equip_slot: ItemEquipSlot;
   item_images: string[];
   stats: ItemStats;
   tooltip: {
     type: string;
   };
 }
+
+export type ItemCategory = "armor" | "weapon" | "amulet" | "potion" | "scroll" | "magicstaff" | "ring" | "spellbook" | "gem" | "tool" | "food" | "book" | "spell_cat" | "thrown";
+
+export type ItemEquipSlot = "mainhand" | "offhand" | "torso" | "helm" | "gloves" | "boots" | "cloak" | "amulet" | "ring" | "mask" | "spell";
 
 type SelectedItem = ItemDetails & {
   name: string;
@@ -57,6 +60,7 @@ interface ItemSelectionDialogProps {
   open: boolean;
   onClose: () => void;
   onSelectItem: (item: number) => void;
+  filterEquipSlot?: ItemEquipSlot;
   value: number; // Propriedade não utilizada no filtro, mas mantida na interface
 }
 
@@ -81,6 +85,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
   open,
   onClose,
   onSelectItem,
+  filterEquipSlot,
   value,
 }) => {
   // 1. Estados para os filtros
@@ -105,16 +110,22 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
   const filteredItems = useMemo(() => {
     var filter = allItems.filter((item) => {
       const languageName = language.getItem(item.name, true);
-      if(languageName.toLowerCase().includes(filterText.toLowerCase()))
-        return true;
-      const matchesName = item.name
-        .toLowerCase()
-        .includes(filterText.toLowerCase());
-
-      const matchesCategory =
-        filterCategory === "ALL" || item.item_category === filterCategory;
-      
-      return matchesName && matchesCategory;
+      //Filtro
+      if(filterText.length > 0)
+      {
+        //Filtrar nome traduzido
+        if(!languageName.toLowerCase().includes(filterText.toLowerCase()))
+        {
+          if(!item.name.toLowerCase().includes(filterText.toLowerCase()))
+            return false;
+        }
+      }
+      //filtrar categoria
+      if(filterCategory !== "ALL" && item.item_category !== filterCategory)
+        return false;
+      if(filterEquipSlot !== undefined && item.equip_slot !== filterEquipSlot)
+        return false;
+      return true;
     });
     pages.setCount(filter.length);
     return filter.slice(
@@ -153,7 +164,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
             />
 
             {/* Filtro por Tipo/Categoria */}
-            <FormControl variant="outlined" size="small" sx={{ minWidth: 200 }}>
+            {!filterEquipSlot && <FormControl variant="outlined" size="small" sx={{ minWidth: 200 }}>
               <InputLabel id="category-filter-label">Tipo</InputLabel>
               <Select
                 labelId="category-filter-label"
@@ -167,7 +178,7 @@ export const ItemSelectionDialog: React.FC<ItemSelectionDialogProps> = ({
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl>}
           </Box>
           <Divider />
         </>

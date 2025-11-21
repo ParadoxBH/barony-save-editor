@@ -24,6 +24,7 @@ tab_inventory_backpack: Mochila # titulo da parte do inventario destinado a moch
 tab_equipment: Equipamentos # titulo da aba que abre os equipamentos do jogador
 tab_spells: Feitiços # titulo da aba que abre a lista de feitiços conhecido pelo jogador
 tab_recipes: Receitas # titulo da aba que abre a lista de receitas conhecidas pelo jogador
+tab_scrolls: Pergaminhos
 
 # Seletor de jogador
 player_selector_label: Jogador # titulo do field que permite o usuario selecionar qual jogador ele ira editar

@@ -1,17 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Icon } from "../components/Icon";
-import {
-  Divider,
-  Stack,
-  Typography,
-  Chip,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Button,
-  Tabs,
-} from "@mui/material";
+import { Divider, Stack, Typography, Chip, Button, Tabs } from "@mui/material";
 import type { GameData } from "../utils/SaveDefinition";
 import {
   setSaveData,
@@ -36,14 +25,25 @@ import {
   InputSelection,
   type InputSelectionOptions,
 } from "../components/InputSelection";
+import JSZip from "jszip";
+//@ts-ignore
+import { saveAs } from "file-saver";
 
 export function Header() {
-  const { tab, saveData, saveName, playerSelected, itens, loading } =
-    useAppSelector((s) => s.common);
+  const {
+    tab,
+    saveData,
+    saveName,
+    playerSelected,
+    itens,
+    loading,
+    language_selected,
+  } = useAppSelector((s) => s.common);
   const dispatch = useAppDispatch();
   const language = useLanguage();
   const isLoading = Object.values(loading).find((l) => !l) !== undefined;
   const player = getCharacter();
+  const invalidSave = !saveData;
   const playerOptions = useMemo(
     () =>
       [
@@ -85,23 +85,78 @@ export function Header() {
     }
   };
 
-  const handleDownload = (): void => {
+  async function handleDownload() {
     if (!saveData) {
       alert("Nenhum arquivo carregado para baixar!");
       return;
     }
+    const gameData = parseToSave(saveData);
+    const playerCount = saveData.save.players_connected.filter(
+      (c) => c === 1
+    ).length;
+    if (playerCount === 1) {
+      const dataStr = JSON.stringify(gameData, null, 4);
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = saveName || "savegame_edited.baronysave";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } else if (playerCount > 1) {
+      const zip = new JSZip();
 
-    const dataStr = JSON.stringify(parseToSave(saveData), null, 4);
-    const dataBlob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = saveName || "savegame_edited.baronysave";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
+      let c = 0;
+      while (c < saveData.save.players_connected.length) {
+        if (saveData.save.players_connected[c] === 1) {
+          const dataStr = JSON.stringify(
+            {
+              ...gameData,
+              player_num: c,
+              multiplayer_type: c === gameData.player_num ? 3 : 4,
+            },
+            null,
+            4
+          );
+          zip.file(
+            `${gameData.players[c].stats.name.replace(/[^a-zA-Z0-9]/g, "")}__${
+              saveName || "savegame_edited.baronysave"
+            }`,
+            dataStr
+          );
+        }
+        c++;
+      }
+      try {
+        try {
+          const response = await fetch(
+            `language/${language_selected}/readme.txt`
+          );
+          const text = await response.text();
+          zip.file("readme.txt", text);
+        } catch {
+          const response = await fetch(
+            `language/en/readme.txt`
+          );
+          const text = await response.text();
+          zip.file("readme.txt", text);
+        }
+      } catch {}
+      // Gerar o zip
+      const content = await zip.generateAsync({ type: "blob" });
+
+      // Baixar o arquivo zip
+      saveAs(
+        content,
+        (saveName || "savegame_edited.baronysave").replace(
+          ".baronysave",
+          ".zip"
+        )
+      );
+    }
+  }
 
   return (
     <>
@@ -177,36 +232,33 @@ export function Header() {
               onChange={(e, value) => dispatch(setTab(value))}
               aria-label="basic tabs example"
             >
-              <Tab id={"dungeon"} value={TAB_DUNGEON} />
+              <Tab id={"dungeon"} value={TAB_DUNGEON} disabled={invalidSave} />
               <Tab
                 icon={player ? getRaceIcon(player) : undefined}
                 id={"character"}
                 value={TAB_CHARACTER}
+                disabled={invalidSave}
               />
-              <Tab id={"proficiencies"} value={TAB_PROFICIENCIES} />
-              <Tab id={"inventory"} value={TAB_INVENTORY} />
-              <Tab id={"equipment"} value={TAB_EQUIPAMENT} />
-              <Tab id={"spells"} value={TAB_SPELLS} />
-              <Tab id={"recipes"} value={TAB_RECIPES} />
+              <Tab
+                id={"proficiencies"}
+                value={TAB_PROFICIENCIES}
+                disabled={invalidSave}
+              />
+              <Tab
+                id={"inventory"}
+                value={TAB_INVENTORY}
+                disabled={invalidSave}
+              />
+              <Tab
+                id={"equipment"}
+                value={TAB_EQUIPAMENT}
+                disabled={invalidSave}
+              />
+              <Tab id={"spells"} value={TAB_SPELLS} disabled={invalidSave} />
+              <Tab id={"recipes"} value={TAB_RECIPES} disabled={invalidSave} />
             </Tabs>
           </Stack>
           <Stack direction="row" spacing={2} alignItems={"center"}>
-            <Typography sx={{ color: "#666" }}>
-              {`🎮 ${language.get("save_info_game")}: ${
-                saveData?.save.game_name || "?"
-              }`}
-            </Typography>
-            <Typography sx={{ color: "#666" }}>
-              {`📦 ${language.get("save_info_version")}: ${
-                saveData?.save.game_version || "?"
-              }`}
-            </Typography>
-            <Typography sx={{ color: "#666" }}>
-              {`👥 ${language.get("save_info_player_num")}: ${
-                saveData?.save.players_connected.filter((p) => p === 1)
-                  .length || "?"
-              }`}
-            </Typography>
             {saveData && (
               <>
                 <Divider orientation="vertical" flexItem />

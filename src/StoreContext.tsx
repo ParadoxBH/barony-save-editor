@@ -25,6 +25,7 @@ export const TAB_INVENTORY = 3;
 export const TAB_EQUIPAMENT = 4;
 export const TAB_SPELLS = 5;
 export const TAB_RECIPES = 6
+export const TAB_SCROLLS = 7;
 
 export const speelLimit = 30;
 
@@ -124,6 +125,10 @@ const applicationSlice = createSlice({
       if (!state.saveData || state.playerSelected === undefined) return;
       state.saveData.players[state.playerSelected].equipment = action.payload;
     },
+    setPlayerScrolls(state: ApplicationState, action: PayloadAction<RecipeUnlockable>) {
+      if (!state.saveData || state.playerSelected === undefined) return;
+      state.saveData.players[state.playerSelected].scrolls = action.payload;
+    },
     setPlayerRecipes(state: ApplicationState, action: PayloadAction<RecipeUnlockable>) {
       if (!state.saveData || state.playerSelected === undefined) return;
       state.saveData.players[state.playerSelected].recipes = action.payload;
@@ -185,6 +190,7 @@ export const {
   setPlayerEquipament,
   setPlayerSpeel,
   setPlayerRecipes,
+  setPlayerScrolls,
   setTab,
 } = applicationSlice.actions;
 

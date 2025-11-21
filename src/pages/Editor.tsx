@@ -10,6 +10,7 @@ import {
   useAppSelector,
   TAB_DUNGEON,
   TAB_RECIPES,
+  TAB_SCROLLS,
 } from "../StoreContext";
 import { Equipaments } from "./Equipaments";
 import { Character } from "./Character";
@@ -17,6 +18,7 @@ import { Spells } from "./Spells";
 import { Proeficiencias } from "./Proeficiencias";
 import { Dungeon } from "./Dungeon";
 import { Recipes } from "./Recipes";
+import { Scrolls } from "./Scrolls";
 
 interface EditorProps {}
 
@@ -46,6 +48,7 @@ export function Editor({}: EditorProps) {
       {tab === TAB_EQUIPAMENT && <Equipaments />}
       {tab === TAB_SPELLS && <Spells />}
       {tab === TAB_RECIPES && <Recipes />}
+      {tab === TAB_SCROLLS && <Scrolls />}
     </Stack>
   );
 }

@@ -83,7 +83,7 @@ interface Player {
 
   spells: PlayerUnlockable;
   recipes: RecipeUnlockable;
-  //scrolls: PlayerUnlockable;
+  scrolls: RecipeUnlockable;
 
   equipment: PlayerEquipment;
   inventory: PlayerInventory;

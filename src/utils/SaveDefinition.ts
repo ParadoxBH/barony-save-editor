@@ -115,10 +115,6 @@ interface Recipe {
   }
 }
 
-interface Scroll {
-  
-}
-
 // Player data
 interface Player {
   char_class: number;
@@ -136,7 +132,7 @@ interface Player {
   selected_spell_last_appearance: number;
   spells: number[];
   recipes: Recipe[];
-  scrolls: Scroll[];
+  scrolls: number[];
   stats: Stats;
   followers: Follower[];
   game_statistics: number[];

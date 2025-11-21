@@ -16,6 +16,7 @@ import {
   TAB_DUNGEON,
   getCharacter,
   TAB_RECIPES,
+  TAB_SCROLLS,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -256,6 +257,7 @@ export function Header() {
               />
               <Tab id={"spells"} value={TAB_SPELLS} disabled={invalidSave} />
               <Tab id={"recipes"} value={TAB_RECIPES} disabled={invalidSave} />
+              <Tab id={"scrolls"} value={TAB_SCROLLS} disabled={invalidSave} />
             </Tabs>
           </Stack>
           <Stack direction="row" spacing={2} alignItems={"center"}>

@@ -11,6 +11,7 @@ import type {
   PlayerEquipment,
   PlayerInventory,
   PlayerUnlockable,
+  RecipeUnlockable,
 } from "./EditorDefinition";
 import { guid } from "./utils";
 import { type ItemDataMap } from "../StoreContext";
@@ -92,6 +93,10 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
           result[recipe.first] = { type: recipe.first, unlocked: true };
           return result;
         }, {} as PlayerUnlockable),
+        scrolls: p.scrolls.reduce((result, s) => {
+          result[s] = { type: s, unlocked: true };
+          return result;
+        }, {} as RecipeUnlockable),
 
         //Equipament
         equipment: p.stats.player_equipment.reduce((result, e) => {
@@ -168,6 +173,7 @@ export function parseToSave(editor: EditorData): GameData {
           return result;
         }, [] as { first: number; second: { first: number; second: number } }[]),
       spells: spells.map((s) => inventoryId[s]),
+      scrolls: Object.values(editorPlayer.scrolls).map(s => s.type),
       hotbar: player.hotbar.map((h) => ITEMREF_NULL),
       hotbar_alternate: player.hotbar_alternate.map((h) =>
         h.map((h) => ITEMREF_NULL)

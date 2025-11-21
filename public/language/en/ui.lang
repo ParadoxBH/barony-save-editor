@@ -24,6 +24,7 @@ tab_inventory_backpack: Backpack # title of the inventory section dedicated to t
 tab_equipment: Equipment # Title of the tab that opens the player's equipment
 tab_spells: Spell # Title of the tab that opens the list of spells known by the player
 tab_recipes: Recipes # title of the tab that opens the list of recipes known by the player
+tab_scrolls: Scrolls
 
 # Player selector
 player_selector_label: Player # Title of the field that allows the user to select which player they will edit

@@ -23,6 +23,7 @@ tab_inventory: Inventory # Title of the tab that opens the player's inventory
 tab_inventory_backpack: Backpack # title of the inventory section dedicated to the backpack
 tab_equipment: Equipment # Title of the tab that opens the player's equipment
 tab_spells: Spell # Title of the tab that opens the list of spells known by the player
+tab_recipes: Recipes # title of the tab that opens the list of recipes known by the player
 
 # Player selector
 player_selector_label: Player # Title of the field that allows the user to select which player they will edit
@@ -30,7 +31,13 @@ player_selector_value_empty: Select a player # Displayed when no player has been
 player_selector_option_empty: Player %s # Text displayed when the player slot is empty
 player_selector_option_null: None # Text for the "no player" option
 
+# Player Recipes
+recipes_result: Potion
+recipes_base: Base
+recipes_secondary: Secondary
+
 # Menu UI
+ui_all: All # generic text used to say that everything will be included
 ui_confirm: Confirm # generic text used to confirm an action
 ui_cancel: Cancel # generic text used to cancel an action
 ui_delet: Delete # generic text used to delete something

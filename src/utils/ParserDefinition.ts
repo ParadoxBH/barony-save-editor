@@ -16,6 +16,7 @@ import { guid } from "./utils";
 import { type ItemDataMap } from "../StoreContext";
 import { genItemNull } from "../pages/ItemEditor";
 import { ITEMID_SPELL, ITEMREF_NULL } from "../pages/Inventory";
+import { recipes } from "../pages/RecipesCrafts";
 
 function parseItem(itens: ItemDataMap, i: SavePlayerStatsInventory): Item {
   return {
@@ -47,7 +48,7 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
       return {
         _uuid: guid(),
         name: p.stats.name,
-        
+
         class: p.char_class,
         race: p.race,
         type: p.stats.type,
@@ -85,6 +86,12 @@ export function parseToEditor(itens: ItemDataMap, save: GameData): EditorData {
 
         //Proficiencies
         proficiencies: p.stats.PROFICIENCIES,
+
+        //Recipes
+        recipes: p.recipes.reduce((result, recipe) => {
+          result[recipe.first] = { type: recipe.first, unlocked: true };
+          return result;
+        }, {} as PlayerUnlockable),
 
         //Equipament
         equipment: p.stats.player_equipment.reduce((result, e) => {
@@ -128,8 +135,8 @@ export function parseToSave(editor: EditorData): GameData {
         .filter((s) => s.unlocked)
         .map((s, index) => {
           const spellItem = genItemNull();
-          spellItem.x = index%4;
-          spellItem.y = Math.floor(index/4);
+          spellItem.x = index % 4;
+          spellItem.y = Math.floor(index / 4);
           spellItem.type = ITEMID_SPELL;
           spellItem.appearance = s.type;
           spells.push(spellItem._uuid);
@@ -145,11 +152,30 @@ export function parseToSave(editor: EditorData): GameData {
       ...player,
       char_class: editorPlayer.class,
       race: editorPlayer.race,
-      spells: spells.map(s => inventoryId[s]),
-      hotbar: player.hotbar.map(h => ITEMREF_NULL),
-      hotbar_alternate: player.hotbar_alternate.map(h => h.map(h => ITEMREF_NULL)),
+      recipes: Object.values(editorPlayer.recipes)
+        .filter(
+          (recipe) =>
+            recipe.type in recipes && editorPlayer.recipes[recipe.type].unlocked
+        )
+        .reduce((result, recipe) => {
+          result = [
+            ...result,
+            ...recipes[recipe.type].map((r) => ({
+              first: recipe.type,
+              second: r,
+            })),
+          ];
+          return result;
+        }, [] as { first: number; second: { first: number; second: number } }[]),
+      spells: spells.map((s) => inventoryId[s]),
+      hotbar: player.hotbar.map((h) => ITEMREF_NULL),
+      hotbar_alternate: player.hotbar_alternate.map((h) =>
+        h.map((h) => ITEMREF_NULL)
+      ),
       selected_spell: ITEMREF_NULL,
-      selected_spell_alternate: player.selected_spell_alternate.map(h => ITEMREF_NULL),
+      selected_spell_alternate: player.selected_spell_alternate.map(
+        (h) => ITEMREF_NULL
+      ),
       selected_spell_last_appearance: -1,
       stats: {
         ...player.stats,
@@ -157,7 +183,7 @@ export function parseToSave(editor: EditorData): GameData {
         type: editorPlayer.type,
         sex: editorPlayer.sex,
         PROFICIENCIES: editorPlayer.proficiencies,
-        inventory: inventory.map(i => ({
+        inventory: inventory.map((i) => ({
           type: i.type,
           status: i.status,
           appearance: i.appearance,
@@ -167,11 +193,14 @@ export function parseToSave(editor: EditorData): GameData {
           x: i.x,
           y: i.y,
         })),
-        player_equipment: Object.keys(editorPlayer.equipment).map(e => ({
+        player_equipment: Object.keys(editorPlayer.equipment).map((e) => ({
           first: e,
-          second: editorPlayer.equipment[e]._uuid in inventoryId ? inventoryId[editorPlayer.equipment[e]._uuid] : editorPlayer.equipment[e],
-        }))
-      }
+          second:
+            editorPlayer.equipment[e]._uuid in inventoryId
+              ? inventoryId[editorPlayer.equipment[e]._uuid]
+              : editorPlayer.equipment[e],
+        })),
+      },
     });
   }
 

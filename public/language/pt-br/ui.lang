@@ -23,6 +23,7 @@ tab_inventory: Inventario # titulo da aba que abre o inventario do jogador
 tab_inventory_backpack: Mochila # titulo da parte do inventario destinado a mochila
 tab_equipment: Equipamentos # titulo da aba que abre os equipamentos do jogador
 tab_spells: Feitiços # titulo da aba que abre a lista de feitiços conhecido pelo jogador
+tab_recipes: Receitas # titulo da aba que abre a lista de receitas conhecidas pelo jogador
 
 # Seletor de jogador
 player_selector_label: Jogador # titulo do field que permite o usuario selecionar qual jogador ele ira editar
@@ -30,7 +31,13 @@ player_selector_value_empty: Selecione um jogador # Caso não tenha escolhido ne
 player_selector_option_empty: Jogador %s # texto que é exibido caso o slot de jogador esteja vazio
 player_selector_option_null: Nenhum # texto de opção de jogador nenhum
 
+# Player Recipes
+recipes_result: Poção
+recipes_base: Base
+recipes_secondary: Secundário
+
 # Menu UI
+ui_all: Todos # texto generico utilizado para fizer que tudo sera incluido
 ui_confirm: Confirmar # texto generico utilizado para confirmar uma ação
 ui_cancel: Cancelar # texto generico utilizado para cancelar uma ação
 ui_delet: Deletar # texto generico utilizado para deletar algo

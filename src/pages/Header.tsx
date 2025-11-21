@@ -26,6 +26,7 @@ import {
   TAB_PROFICIENCIES,
   TAB_DUNGEON,
   getCharacter,
+  TAB_RECIPES,
 } from "../StoreContext";
 import { parseToEditor, parseToSave } from "../utils/ParserDefinition";
 import { LanguageSelector, useLanguage } from "../components/language";
@@ -186,6 +187,7 @@ export function Header() {
               <Tab id={"inventory"} value={TAB_INVENTORY} />
               <Tab id={"equipment"} value={TAB_EQUIPAMENT} />
               <Tab id={"spells"} value={TAB_SPELLS} />
+              <Tab id={"recipes"} value={TAB_RECIPES} />
             </Tabs>
           </Stack>
           <Stack direction="row" spacing={2} alignItems={"center"}>

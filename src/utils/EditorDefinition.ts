@@ -50,6 +50,7 @@ interface Item {
 type PlayerEquipment = { [key: string]: Item };
 type PlayerInventory = { [key: string]: Item };
 type PlayerUnlockable = { [key: string]: Unlockable };
+type RecipeUnlockable = { [key: number]: Unlockable };
 
 interface PlayerStats {
     HP: number;
@@ -81,7 +82,7 @@ interface Player {
   proficiencies: number[];
 
   spells: PlayerUnlockable;
-  //recipes: PlayerUnlockable;
+  recipes: RecipeUnlockable;
   //scrolls: PlayerUnlockable;
 
   equipment: PlayerEquipment;
@@ -99,4 +100,5 @@ export type {
   PlayerStats,
   PlayerInventory,
   PlayerUnlockable,
+  RecipeUnlockable,
 };

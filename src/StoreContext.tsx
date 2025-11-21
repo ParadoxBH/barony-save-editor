@@ -9,6 +9,7 @@ import type {
   PlayerEquipment,
   PlayerInventory,
   PlayerStats,
+  RecipeUnlockable,
   Unlockable,
 } from "./utils/EditorDefinition";
 import type { ReactNode } from "react";
@@ -23,6 +24,8 @@ export const TAB_PROFICIENCIES = 2;
 export const TAB_INVENTORY = 3;
 export const TAB_EQUIPAMENT = 4;
 export const TAB_SPELLS = 5;
+export const TAB_RECIPES = 6
+
 export const speelLimit = 30;
 
 export interface ItemData {
@@ -121,6 +124,10 @@ const applicationSlice = createSlice({
       if (!state.saveData || state.playerSelected === undefined) return;
       state.saveData.players[state.playerSelected].equipment = action.payload;
     },
+    setPlayerRecipes(state: ApplicationState, action: PayloadAction<RecipeUnlockable>) {
+      if (!state.saveData || state.playerSelected === undefined) return;
+      state.saveData.players[state.playerSelected].recipes = action.payload;
+    },
     setPlayerSpeel(state: ApplicationState, action: PayloadAction<Unlockable>) {
       var speel = action.payload;
       if (!state.saveData || state.playerSelected === undefined) return;
@@ -177,6 +184,7 @@ export const {
   setPlayerProficiencies,
   setPlayerEquipament,
   setPlayerSpeel,
+  setPlayerRecipes,
   setTab,
 } = applicationSlice.actions;
 

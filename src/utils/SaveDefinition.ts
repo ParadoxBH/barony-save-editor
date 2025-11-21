@@ -108,7 +108,11 @@ interface ItemDegradeRng {
 }
 
 interface Recipe {
-  
+  first: number,
+  second: {
+    first: number,
+    second: number,
+  }
 }
 
 interface Scroll {

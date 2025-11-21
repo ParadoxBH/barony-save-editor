@@ -4,11 +4,10 @@ import { Box, type SxProps } from "@mui/material";
 interface IconProps {
   name: string;
   size?: number;
-  className?: string;
   sx?: SxProps;
   format?: string;
 }
-export function Icon({ name, size, className, sx, format }: IconProps) {
+export function Icon({ name, size, sx, format }: IconProps) {
   return (
     <Box
       sx={{
@@ -18,6 +17,7 @@ export function Icon({ name, size, className, sx, format }: IconProps) {
         backgroundImage: `url(${name}.${format || "png"})`,
         width: size || 18,
         height: size || 18,
+        ...sx
       }}
     />
   );

@@ -15,26 +15,44 @@ import { theme } from "../theme";
 import { useLanguage } from "./language";
 
 export const itemEffectIcon: {[key: number]: string} = {
-  53: "water",
-  54: "drunk",
-  55: "juice",
-  56: "sickness",
-  57: "confuse",
-  58: "extrahealing",
-  59: "healing",
-  60: "cureailment",
-  61: "sleep",
-  62: "restoremagic",
-  63: "invisible",
-  64: "levitation",
-  65: "speed",
-  66: "acidspray",
-  67: "paralyze",
-  218: "polymorph",
-  222: "fireball",
-  223: "cold",
-  224: "lightning",
-  225: "strength",
+  //Potions
+  53: "potions/water",
+  54: "potions/drunk",
+  55: "potions/juice",
+  56: "potions/sickness",
+  57: "potions/confuse",
+  58: "potions/extrahealing",
+  59: "potions/healing",
+  60: "potions/cureailment",
+  61: "potions/sleep",
+  62: "potions/restoremagic",
+  63: "potions/invisible",
+  64: "potions/levitation",
+  65: "potions/speed",
+  66: "potions/acidspray",
+  67: "potions/paralyze",
+  218: "potions/polymorph",
+  222: "potions/fireball",
+  223: "potions/cold",
+  224: "potions/lightning",
+  225: "potions/strength",
+  //Scrolls
+  68: "info",
+  69: "items/images/spells/identify",
+  70: "items/images/spells/light",
+  71: "items/images/magic_quill",
+  72: "items/images/SteelSword",
+  73: "items/images/SteelBreastpiece",
+  74: "items/images/spells/removecurse",
+  75: "items/images/spells/fireball",
+  76: "items/images/Apple",
+  77: "items/images/spells/magicmapping",
+  78: "items/images/spells/salvage",
+  79: "items/images/spells/recycle",
+  80: "items/images/spells/teleport",
+  81: "items/images/spells/summon",
+  274: "skillsheet/Magic01",
+  286: "items/images/quivercrystal",
 }
 
 interface ItemSlotProps {
@@ -200,8 +218,8 @@ export function ItemSlot({
               />
               {(item && item.type in itemEffectIcon) && (
                 <ItemIcon
-                  image={`potions/${itemEffectIcon[item.type]}.png`}
-                  sx={{ left: "40%", bottom: "40%", right: 0, top: 0 }}
+                  image={`${itemEffectIcon[item.type]}.png`}
+                  sx={{ left: "40%", bottom: "40%", right: currentItem?.item_category === "SCROLL" ? "-10%" : 0, top: currentItem?.item_category === "SCROLL" ? "-10%" : 0 }}
                 />
               )}
             </Box>

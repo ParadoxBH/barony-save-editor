@@ -44,6 +44,7 @@ ui_delet: Deletar # texto generico utilizado para deletar algo
 filterby_name: Filtrar por nome # label do campo aonde adicionado o filtro por nome
 filterby_type: Filtrar por Tipo # label do campo aonde adicionado o filtro por tipotraduzir:
 filter_result_empty: Nenhum item encontrado com os filtros aplicados # mensagem exibida quando o usuario tenta buscar um item usando um filtro e não encontra nada como resultado
+player_spell_warning: Contem mais de %f magias pode causar bugs durante sua gameplay # Mensagem de alerta, pois o jogo crash quando o jogador tem mais de 30 magias
 
 # Edição de item 
 item_label: Item # texto dizendo que oque esta sendo indicado é o item

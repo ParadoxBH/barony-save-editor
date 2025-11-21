@@ -44,6 +44,7 @@ ui_delet: Delete # generic text used to delete something
 filterby_name: Filter by name # label of the field where the name filter is applied
 filterby_type: Filter by type # label of the field where the type filter is applied
 filter_result_empty: No items found with the applied filters # message displayed when the user tries to search for an item using a filter and no results are found
+player_spell_warning: Contains more than %f spells, may cause bugs during your gameplay # Warning message, as the game crashes when the player has more than 30 spells
 
 # Item Editing
 item_label: Item # text indicating that what is being referred to is the item

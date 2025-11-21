@@ -2,6 +2,7 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import {
   getCharacter,
   setPlayerSpeel,
+  speelLimit,
   useAppDispatch,
   useAppSelector,
 } from "../StoreContext";
@@ -9,6 +10,8 @@ import { useLanguage } from "../components/language";
 import { ITEMID_SPELL } from "./Inventory";
 import { ItemIcon } from "../components/ItemSlot";
 import { TabWindow } from "../components/TabWindow";
+import { Icon } from "../components/Icon";
+import { Chip } from "../components/Chip";
 
 interface ItemProps {
   speelId: number;
@@ -64,7 +67,26 @@ export function Spells() {
   }
 
   return (
-    <TabWindow label={language.get("tab_spells")} width={600}>
+    <TabWindow
+      label={language.get("tab_spells")}
+      startIcon={<Icon name="tabs/spells" size={32} />}
+      width={600}
+      actions={
+        <Chip
+          color={
+            count < speelLimit - Math.max(2, speelLimit / 3)
+              ? "info"
+              : count < speelLimit - Math.max(1, speelLimit / 5)
+              ? "warning"
+              : "error"
+          }
+          label={`${count}/${speelLimit}`}
+        />
+      }
+      prefix={
+        <Chip icon="ExclamationAnim00" color={"warning"} label={language.get("player_spell_warning").replace("%f", speelLimit.toString())}/>
+      }
+    >
       <Grid container spacing={0.5}>
         {getSpeels().map((speel) => (
           <Item speelId={speel.id} image={speel.image} />

@@ -7,12 +7,14 @@ interface ChipProps {
   label?: string | number;
   tooltip?: string;
   sx?: {root?: SxProps, label?: SxProps, icon?: SxProps};
+  onClick?: () => void;
 }
 
-export function Chip({ icon, label, tooltip, sx, color }: ChipProps) {
+export function Chip({ icon, label, tooltip, sx, color, onClick }: ChipProps) {
   return (
     <Tooltip title={tooltip} disableInteractive placement="top">
       <ChipUi
+        onClick={onClick}
         sx={sx?.root}
         label={
           <Stack direction={"row"} alignItems={"center"} spacing={0.5}>
